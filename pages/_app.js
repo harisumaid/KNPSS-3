@@ -1,4 +1,4 @@
-import 'antd/dist/antd.css';
+import 'semantic-ui-css/semantic.min.css'
 //You cannot import global CSS anywhere else.
 //this style act as the global CSS for all component
 
