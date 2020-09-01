@@ -32,3 +32,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+#file stored on server
+/files
+/static

@@ -5,11 +5,20 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "build-semantic": "cd semantic && gulp build-css build-assets",
+    "watch-semantic": "cd semantic && npm run build-semantic && gulp watch"
   },
   "dependencies": {
+    "multer": "^1.4.2",
     "next": "9.5.2",
+    "next-connect": "^0.8.1",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "semantic-ui-react": "^1.2.1"
+  },
+  "devDependencies": {
+    "fomantic-ui": "^2.8.6",
+    "gulp": "^4.0.2"
   }
 }
