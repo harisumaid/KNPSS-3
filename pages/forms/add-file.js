@@ -159,13 +159,14 @@ export default function AddFile() {
             formData.append('file', fileInput.current.childNodes[1].firstChild.files[0]);
         }
 
-        const res = await fetch('/api/formProcess', {
+        const response = await fetch('/api/formProcess', {
             method: 'POST',
             body: formData,
         });
-
-        if (res.name == 'John Doe') {
+        const res = await response.json();
+        if (res.status == 'File recieved and Stored') {
             console.log('response success');
+            window.location.reload(true);
         }
     }
 }

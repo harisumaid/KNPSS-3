@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const uri = 'mongodb://localhost/knpss';
+const uri = process.env.MONGODB_URI;
 const option = {useNewUrlParser: true};
 
 
