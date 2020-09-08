@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { Image, Card, Dropdown } from 'semantic-ui-react'
+import { Image, Card, Dropdown, Dimmer, Loader } from 'semantic-ui-react'
 import styles from '../../styles/FetchFile.module.css'
 import { useState } from 'react'
 import { set } from 'mongoose';
@@ -31,6 +31,7 @@ const FormOptions = [
 export default function FetchFiles({ offices }) {
     const [document, setDocument] = useState([]);
     const [formType, setFormType] = useState(null);
+    const [showLoader, setShowLoader] = useState(false);
     let showForms;
     if (formType == 'news') {
         showForms = <ForNews />
@@ -65,7 +66,9 @@ export default function FetchFiles({ offices }) {
             required
         />
         {showForms}
-
+        <Dimmer active={showLoader} >
+            <Loader active={showLoader} >Fetching {formType}'s details</Loader>
+        </Dimmer>
 
 
     </div>);
@@ -74,7 +77,7 @@ export default function FetchFiles({ offices }) {
     function ImageComponent(props) {
         return (
             <>
-            <br/>
+                <br />
                 <Card>
                     <Image src={props.src} wrapped ui={false} />
                     <Card.Content>
@@ -95,6 +98,7 @@ export default function FetchFiles({ offices }) {
         if (formType == 'news' && JSON.stringify(document) === JSON.stringify([])) {
             fetchDetails('news').then((res) => {
                 setDocument(res);
+                setShowLoader(false);
             });
         }
         return (
@@ -117,6 +121,7 @@ export default function FetchFiles({ offices }) {
         if (formType == 'gallery' && JSON.stringify(document) === JSON.stringify([])) {
             fetchDetails('gallery').then((res) => {
                 setDocument(res);
+                setShowLoader(false);
             });
         }
         return (
@@ -140,6 +145,7 @@ export default function FetchFiles({ offices }) {
         if (formType == 'achievement' && JSON.stringify(document) === JSON.stringify([])) {
             fetchDetails('achievement').then((res) => {
                 setDocument(res);
+                setShowLoader(false);
             });
         }
         return (
@@ -159,10 +165,11 @@ export default function FetchFiles({ offices }) {
     }
 
     function ForOffice() {
-        console.log(document, formType);
         if (formType == 'office' && JSON.stringify(document) === JSON.stringify([])) {
             fetchDetails('office').then((res) => {
+                console.log('In here');
                 setDocument(res);
+                setShowLoader(false);
             });
         }
 
@@ -187,6 +194,7 @@ export default function FetchFiles({ offices }) {
 
 
     async function fetchDetails(fieldType) {
+        setShowLoader(true);
         console.log('asdasdasd');
         const Response = await fetch('/api/formFetch?formType=' + fieldType, {
             method: 'GET',

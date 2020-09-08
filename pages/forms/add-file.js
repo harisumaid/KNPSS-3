@@ -1,4 +1,4 @@
-import { Form, Dropdown, Ref } from 'semantic-ui-react'
+import { Form, Dropdown, Ref, Dimmer, Loader } from 'semantic-ui-react'
 import styles from "../../styles/AddFile.module.css";
 import Head from 'next/head'
 import { useState, useRef } from 'react'
@@ -31,6 +31,7 @@ const FormOptions = [
 
 export default function AddFile() {
     const [formType, setFormType] = useState(null);
+    const [showLoader,setShowLoader] = useState(false);
     let showForms;
     if (formType == 'news') {
         showForms = <ForNews />
@@ -65,6 +66,10 @@ export default function AddFile() {
                 required
             />
             {showForms}
+            <Dimmer active={showLoader} >
+                <Loader active={showLoader} > Adding Data to database </Loader>
+            </Dimmer>
+
         </div>
     );
 
@@ -142,7 +147,7 @@ export default function AddFile() {
     async function onSubmit(e) {
         e.preventDefault();
         const formData = new FormData();
-
+        setShowLoader(true);
 
         // only checking for office cause office's form submission field are different,
         //  while the rest of the forms are same

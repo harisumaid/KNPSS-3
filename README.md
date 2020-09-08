@@ -21,8 +21,7 @@ After static folder is completely built, then
 - AWS_SECRET_ACCESS_KEY=aws secret key
 - AWS_BUCKET=name of the bucket(for simplicity you can name it as 'knpss')
 
-All those key's value's should be filled like this:
-AWS_BUCKET=knpss
+Or, You can check .env.example for reference with a bit of explanation.
 
 You need to create an aws account for storing files in your bucket
 
