@@ -14,13 +14,16 @@ which is imported in _document.js file inside pages/ folder
 
 After static folder is completely built, then
 
-2. Create "files" named folder in the root directory of server and these folder inside "files" folder respectively:
+2. You need to create .env.local file in root directory of project, and fill these field respectively
 
- - files/
-    - achievement/
-    - gallery/
-    - news/
-    - office/
+- MONGODB_URI=mongodb uri 
+- AWS_ACCESS_KEY_ID=aws access key
+- AWS_SECRET_ACCESS_KEY=aws secret key
+- AWS_BUCKET=name of the bucket(for simplicity you can name it as 'knpss')
+
+Or, You can check .env.example for reference with a bit of explanation.
+
+You need to create an aws account for storing files in your bucket
 
 Then, run the development server:
 
