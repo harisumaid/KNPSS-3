@@ -66,7 +66,7 @@ handler.post(async (req, res) => {
     } else {
         const filenameArray = req.file.originalname.split('.');
         let fileName;
-        if (req.formType == 'office') {
+        if (req.body.formType == 'office') {
             fileName = req.body.name + "." + filenameArray[filenameArray.length - 1];
         } else {
             fileName = req.body.date+"**"+req.body.title+"." + filenameArray[filenameArray.length - 1];
