@@ -1,0 +1,10 @@
+POST http://localhost:3000/api/register
+Content-Type:  : 'application/json'
+Accept: 'application/json'
+
+{
+    "username" : "Adityesh",
+    "phone" : 8908174255,
+    "email" : "adityesh@test.com",
+    "password" : "testpassword"
+}
