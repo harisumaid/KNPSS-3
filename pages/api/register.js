@@ -10,7 +10,6 @@ import nodemailer from 'nodemailer';
 
 const handler = nextConnect();
 
-
 // Mail sending service transport
 const mailTransporter = nodemailer.createTransport({ 
     service: 'gmail', 
@@ -19,10 +18,6 @@ const mailTransporter = nodemailer.createTransport({
         pass: process.env.PASSWORD
     } 
 }); 
-
-
-
-
 
 handler.use(bodyParser.urlencoded({extended : false}));
 handler.post(async (req, res) => {
@@ -40,8 +35,43 @@ handler.post(async (req, res) => {
             // Check if there is a valid user or not
             if(user) {
                 // User is already present in the database
+                if(user.active === false) {
+                    // User present but not verified. Send verification email
+                    const hostname = req.headers.host; // hostname = 'localhost:8080'
+                    // Needs to be changed to https in production
+                    const urlLink = 'http://' + hostname;
+                    const savedHash = await Hash.findOne({userId : user._id});
+                    if(savedHash) {
+                        const newEmail = {
+                            from : 'no-reply@gmail.com',
+                            to : user.email,
+                            subject : 'Verification of account created at KNPSS-2',
+                            text : `To verify your account please click on the following link ${urlLink}/api/verify?id=${savedHash.userId}&token=${savedHash.hashString}`
+                        }
+    
+                        // Send the email to the registered email
+                        mailTransporter.sendMail(newEmail, (err) => {
+                            if(err) {
+                                res.json({error : true, message : err})
+    
+                            } else {
+                                res.json({error : false, message : "User is not verified, Email sent successfully"})
+                            }
+                        })
+                    } else {
+                        // Error finding hash
+                        res.json({error : true, message : "Error finding hash in the database"})
+                    }
+                    
+
+
+
+
+                } else if(user.active === true) {
+                    // User present and verified. Should be redirected to the login page
+                    res.json({error : true, message : `User already present`});
+                }
                 
-                res.json({error : true, message : `User already present`});
             } else {
                 // New user register the user now.
                 const newUser = new User({
@@ -95,7 +125,7 @@ handler.post(async (req, res) => {
             }
 
         } catch(err) {
-            res.json({error : true, message : err});
+            res.json({error : true, message : err + " Here"});
         }
     }
 

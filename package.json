@@ -13,6 +13,7 @@
     "aws-sdk": "^2.746.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
+    "formik": "^2.1.5",
     "mongoose": "^5.10.2",
     "multer": "^1.4.2",
     "next": "9.5.2",
@@ -20,7 +21,8 @@
     "nodemailer": "^6.4.11",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "semantic-ui-react": "^1.2.1"
+    "semantic-ui-react": "^1.2.1",
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "fomantic-ui": "^2.8.6",
