@@ -6,9 +6,24 @@ import crypto from 'crypto';
 import db from '../../middleware/database';
 import User from '../../models/User';
 import Hash from '../../models/Hash';
-
+import nodemailer from 'nodemailer';
 
 const handler = nextConnect();
+
+
+// Mail sending service transport
+const mailTransporter = nodemailer.createTransport({ 
+    service: 'gmail', 
+    auth: { 
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+    } 
+}); 
+
+
+
+
+
 handler.use(bodyParser.urlencoded({extended : false}));
 handler.post(async (req, res) => {
     // Get the reg fileds from the body of the request
@@ -46,8 +61,30 @@ handler.post(async (req, res) => {
 
                     const savedHash = await newHash.save();
                     if(savedHash) {
+                        const hostname = req.headers.host; // hostname = 'localhost:8080'
+                        // Needs to be changed to https in production
+                        const urlLink = 'http://' + hostname;
                         // See if the hash was generated successfully or not
-                        res.json({error : false, message : "User registered."})
+                        // Hash was saved so send an email to verify the user
+                        // Create a new email to be sent to the user
+
+                        // Email details for the email to be sent
+                        const newEmail = {
+                            from : 'no-reply@gmail.com',
+                            to : savedUser.email,
+                            subject : 'Verification of account created at KNPSS-2',
+                            text : `To verify your account please click on the following link ${urlLink}/api/verify?id=${savedHash.userId}&token=${savedHash.hashString}`
+                        }
+
+                        // Send the email to the registered email
+                        mailTransporter.sendMail(newEmail, (err) => {
+                            if(err) {
+                                res.json({error : true, message : err})
+
+                            } else {
+                                res.json({error : false, message : "Email send successfully"})
+                            }
+                        })
                     } else {
                         res.json({error : true, message : "Error generating hash"})
                     }
