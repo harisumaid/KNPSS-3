@@ -1,9 +1,8 @@
 import Head from 'next/head'
 import { Image, Card, Dropdown, Dimmer, Loader } from 'semantic-ui-react'
 import styles from '../../styles/FetchFile.module.css'
-import { useState } from 'react'
-import { set } from 'mongoose';
-
+import { useState, useEffect } from 'react'
+import Router from 'next/router';
 const FormOptions = [
     {
         key: 'news',
@@ -32,6 +31,15 @@ export default function FetchFiles({ offices }) {
     const [document, setDocument] = useState([]);
     const [formType, setFormType] = useState(null);
     const [showLoader, setShowLoader] = useState(false);
+
+    useEffect(() => {
+        (async() => {
+            const token = localStorage.getItem('token');
+            if(!token) {
+                Router.push('/user/login');
+            } 
+        })()
+    })
     let showForms;
     if (formType == 'news') {
         showForms = <ForNews />

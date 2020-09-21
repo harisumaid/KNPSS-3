@@ -26,16 +26,31 @@ handler.get(async (req, res) => {
                 // Change the active field of the saved user to true
                 const savedUser = await User.findOne({_id : savedHash.userId});
                 if(savedUser) {
-                    savedUser.active = true;
-                    await savedUser.save();
-                    res.json({error : false, message : 'User verified'})
+                    if(savedUser.active === true) res.send(`
+<div style="display: flex;align-items: center;justify-content: center;">
+    <p>
+      User already verified  
+    </p>
+</div>`
+);
+                    else {
+                        savedUser.active = true;
+                        await savedUser.save();
+                        res.send(`
+<div style="display: flex;align-items: center;justify-content: center;">
+    <p>
+      User verified  
+    </p>
+</div>`
+);
+                    }
                 } else {
                     // Error finding user with that id
-                    res.json({error : true, message : 'Error finding user to verify'})
+                    res.json({error : true, message : 'Error finding user to verify, User may already be verified'})
                 }
             } else {
                 // No user with that id
-                res.json({error : true, message : 'Error finding user to verify'})
+                res.json({error : true, message : 'Error finding user to verify, User may already be verified'})
             }
         } catch(err) {
             // Error verifying

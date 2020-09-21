@@ -1,7 +1,8 @@
 import { Form, Dropdown, Ref, Dimmer, Loader } from 'semantic-ui-react'
 import styles from "../../styles/AddFile.module.css";
 import Head from 'next/head'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import Router from 'next/router';
 
 let fileInput;
 
@@ -32,7 +33,21 @@ const FormOptions = [
 export default function AddFile() {
     const [formType, setFormType] = useState(null);
     const [showLoader,setShowLoader] = useState(false);
+
+    useEffect(() => {
+        (async() => {
+            const token = localStorage.getItem('token');
+            if(!token) {
+                Router.push('/user/login');
+            } 
+        })()
+    })
+
+
+
     let showForms;
+
+
     if (formType == 'news') {
         showForms = <ForNews />
     } else if (formType == 'achievement') {
