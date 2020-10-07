@@ -4,11 +4,11 @@ import {Segment,Table,Header,List,Divider} from 'semantic-ui-react'
 export default function ThirdSection() {
     return(
         <div>
-            <div className={styles.background} >
-            </div>
+        
 
             <div className={styles.thirdDiv} >
-                
+                <div className={styles.background} >
+                </div>
                 <div className={styles.news}>
                         <Segment id={styles.segment} >
                             <Header as='h3' color='green' id={styles.inTheNewsHeader} >In the news</Header>
