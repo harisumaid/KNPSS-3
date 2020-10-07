@@ -1,7 +1,7 @@
 .thirdDiv{
+    position: relative;
     height: 100vh;
     width: 100vw;
-    border: 4px green solid;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -11,7 +11,7 @@
 
 .background{
     position: absolute;
-    top: 200vh;
+    top: 0;
     background-image: url('/third_div.svg');
     background-position: center;
     background-size: cover;
@@ -78,7 +78,6 @@
 
 @media (min-width:425px){
     .thirdDiv{
-        border: 6px red solid;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-around;
@@ -88,7 +87,6 @@
         flex: 90%;
         order: 1;
         width: 100vw;
-        height: 40vh;
         /* border: 4px red solid; */
         flex-wrap: wrap;
     }
@@ -101,6 +99,7 @@
         order: 3;
         /* border: 4px yellow solid;    */
         width: 40vw; 
+        height: fit-content;
         justify-content: flex-start;
         margin-right: 5%;
         margin-left: 2.5%;
@@ -109,6 +108,7 @@
         flex: 40%;
         order: 2;
         width: 40vw;
+        height: fit-content;
         /* border: 4px blue solid; */
         margin-left: 5%;
         margin-right: 2.5%;
@@ -129,7 +129,6 @@
 
 @media (min-width:800px){
     .thirdDiv{
-        border: 6px yellow solid;
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: center;

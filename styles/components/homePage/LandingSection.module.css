@@ -1,15 +1,18 @@
 .firstDiv{
     position: relative;
-    height: 100vh;
+    height: fit-content;
     width: 100vw;
 }
 
 #topDivMenu{
     position: absolute;
     z-index: 101;
-    top: 3%;
-    right: 2%;
+    right: 0%;
     color: white;
+    font-size: 3.5vw;
+    font-weight: 400;
+    margin: 2% ;
+    margin-top: 1.5%;
 }
 
 .logo{
@@ -17,30 +20,35 @@
     z-index: 101;
     left: 32px;
     color: white;
-    font-size: 48px;
+    font-size: 3.5vw;
+    font-weight: 400;
+    margin: 1% ;
 }
-
-.logoMobile{
-    position: absolute;
-    z-index: 101;
-    left: 32px;
-    color: white;
-    font-size: 32px;
-    top: 2%;
-}
-
 
 .title{
     position: absolute;
     right: 0px;
     left: 0px;
     z-index: 100;
-    top: 14px;
+    top: 0.5vh;
     width: fit-content;
     margin: auto;
-    margin-top: 1%;
+    margin-top: 2%;
     color: white;
-    font-size: 32px;
+    font-size: 2vw;
+}
+
+.titleBottom{
+    position: absolute;
+    z-index: 101;
+    color: white;
+    font-size: 4vw;
+    width: fit-content;
+    bottom: 2vh;
+    margin: auto;
+    left: 0px;
+    right: 0px;
+    visibility: hidden;
 }
 
 .centerDescription{
@@ -54,15 +62,12 @@
     padding-left: 10%;
 }
 
-#centerDescriptionMobile{
-    font-size: 350%;
-}
-
 .centerDescription h1{
-    font-size: 64px;
+    font-size: 3vw;
 }
 
 #centerButton{
+    font-size: 1vw;
     width: fit-content;
     align-self: flex-end;
 }
@@ -72,49 +77,19 @@
     display: flex;
     align-items: center;
     position: relative;
-    width: 100%;
-    height: 20%;
+    width: 100vw;
+    height: 20vh;
     background-color: white;
     overflow: auto;
-}
-
-.helpUsDivMobile{
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    position: relative;
-    width: 100%;
-    height: 40%;
-    background-color: white;
-    overflow: auto;
-}
-
-.helpUsDivMobile h1{
-    margin-left: 5%;
-    margin-right: -2%;
-    color: #75CF7E;
-    font-size: 300%;
+    justify-content: flex-start;
 }
 
 .helpUsDiv h1{
     margin-left: 5%;
-    margin-right: -2%;
+    margin-bottom: 0%;
     color: #75CF7E;
-    font-size: 54px;
-}
-
-.helpUsDivMobile #helpUsDonate{
-    margin: 2%;
-}
-
-.centerDescriptionContainerMobile{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    position: absolute;
-    width: 100vw;
-    height: 60%;
+    font-size: 3vw;
 }
 
 .centerDescriptionContainer{
@@ -124,21 +99,15 @@
     flex-direction: row;
     position: absolute;
     width: 100vw;
-    height: 80%;
+    height: fit-content;
+    margin: auto;
+    top: 0px;
+    bottom: 0px;
 }
 
 .topDiv{
-    width: 100%;
-    height: 80%;
-    background-image: url("/homepage_image.svg");
-    background-position: center;
-    background-size: cover;
-    filter: brightness(50%);
-}
-
-.topDivMobile{
-    width: 100%;
-    height: 60%;
+    width: 100vw;
+    height: 80vh;
     background-image: url("/homepage_image.svg");
     background-position: center;
     background-size: cover;
@@ -146,7 +115,99 @@
 }
 
 #helpUsDonate{
+    font-size: 1vw;
     margin-left: 5%;
     margin-right: -2%;
 }
 
+@media (max-width:800px){
+    .title{
+        
+        font-size: 2.5vw;
+    }
+
+    .centerDescription h1{
+        font-size: 5vw;
+    }
+
+    #centerButton{
+        font-size: 2vw;
+    }
+
+    #helpUsDonate{
+        font-size: 2vw;
+    }
+
+    .helpUsDiv h1{
+        font-size: 6vw;
+    }
+
+}
+
+@media (max-width:450px){
+    .helpUsDiv{
+        height: 10vh;
+    }
+
+    .topDiv{
+        height: 100vh;
+    }
+
+    .logo{
+        left: 0px;
+        top: 0px;
+        margin: 5vw;
+        font-size: 6vw;
+    }
+
+    #topDivMenu{
+        font-size: 5vw;
+        right: 0px;
+        top: 0px;
+        margin: 5vw;
+    }
+    
+
+    .title{
+        visibility: hidden;
+    }
+
+    .centerDescription h1{
+        font-size: 5vw;
+        text-align: center;
+    }
+
+    .centerDescriptionContainer{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        position: absolute;
+        width: 100vw;
+        height: 80%;
+    }
+
+    #centerButton{
+        font-size: 3vw;
+        width: fit-content;
+        align-self: center;
+    }
+    
+    .titleBottom{
+        visibility: visible;
+    }
+
+    .helpUsDiv{
+        height: 10vh;
+    }
+
+    .helpUsDiv h1{
+        font-size: 7vw;
+    }
+
+    #helpUsDonate{
+        font-size: 3vw;
+    }
+
+
+}
