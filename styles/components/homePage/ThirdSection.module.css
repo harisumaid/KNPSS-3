@@ -36,7 +36,7 @@
 }
 
 #newsList{
-    font-size: 0.85rem;
+    font-size: 3vw;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -53,8 +53,8 @@
 }
 
 .videoFrame{
-    width: fit-content;
-    height: max-content;
+    width: 100%;
+    height: 90%;
 }
 
 .twitter{
@@ -66,23 +66,110 @@
 }
 
 #tweetList{
-    font-size: 0.85rem;
+    font-size: 3vw;
     display: flex;
     flex-direction: column;
     text-align: center;
 }
 
-@media (min-width:600px){
+#divider{
+    visibility: hidden;
+}
+
+@media (min-width:425px){
     .thirdDiv{
         border: 6px red solid;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
     }
     .video{
-        border: 4px red solid;
+        flex: 90%;
+        order: 1;
+        width: 100vw;
+        height: 40vh;
+        /* border: 4px red solid; */
+        flex-wrap: wrap;
+    }
+    .videoFrame{
+        width: 90%;
+        height: 100%;
     }
     .news{
-        border: 4px yellow solid;        
+        flex: 40%;
+        order: 3;
+        /* border: 4px yellow solid;    */
+        width: 40vw; 
+        justify-content: flex-start;
+        margin-right: 5%;
+        margin-left: 2.5%;
     }
     .twitter{
-        border: 4px blue solid;
+        flex: 40%;
+        order: 2;
+        width: 40vw;
+        /* border: 4px blue solid; */
+        margin-left: 5%;
+        margin-right: 2.5%;
+    }
+
+    #segment{
+        height: fit-content;
+    }
+
+    #newsList{
+        font-size: 2vw;
+    }
+
+    #tweetList{
+        font-size: 2vw;
+    }
+}
+
+@media (min-width:800px){
+    .thirdDiv{
+        border: 6px yellow solid;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .video{
+        order: 2;
+        flex: 30%;
+        width: 30vw;
+        height: 40vh;
+        flex-wrap: wrap;
+        align-self: center;
+    }
+    .videoFrame{
+        height: 40vh;
+        width: 30vw;
+    }
+    .news{
+        order: 3;
+        flex: 30%;  
+        width: 30vw; 
+        height: fit-content;
+    }
+    .twitter{
+        order: 1;
+        flex: 30%;
+        width: 30vw;
+        height: fit-content;
+    }
+
+    #segment{
+        height: fit-content;
+    }
+    
+    #newsList{
+        font-size: 1vw;
+    }
+
+    #tweetList{
+        font-size: 1vw;
     }
 }

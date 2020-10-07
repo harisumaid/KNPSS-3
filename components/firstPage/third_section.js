@@ -1,5 +1,5 @@
 import styles from '../../styles/components/homePage/ThirdSection.module.css'
-import {Segment,Table,Header,List} from 'semantic-ui-react'
+import {Segment,Table,Header,List,Divider} from 'semantic-ui-react'
 
 export default function ThirdSection() {
     return(
@@ -10,8 +10,9 @@ export default function ThirdSection() {
             <div className={styles.thirdDiv} >
                 
                 <div className={styles.news}>
-                        <Segment>
+                        <Segment id={styles.segment} >
                             <Header as='h3' color='green' id={styles.inTheNewsHeader} >In the news</Header>
+                            <Divider clearing/>
                             <List id={styles.newsList} >
                                 <List.Item>
                                     <List.Content>
@@ -52,24 +53,28 @@ export default function ThirdSection() {
                     </iframe>
                 </div>
                 <div className={styles.twitter} >
-                <Segment>
+                <Segment id={styles.segment} >
                             <Header as='h3' color='blue' id={styles.inTheNewsHeader} >Twitter updates</Header>
+                            <Divider/>
                             <List id={styles.tweetList} >
                                 <List.Item>
                                     <List.Content>
                                     Standardization of Environmental Clearance Conditions.... dt 09/08/2018
                                     </List.Content>
                                 </List.Item>
+                                
                                 <List.Item>
                                     <List.Content>
                                     Directions under section 18(1)(b) of The Water act of 1974.... dt 02/11/2018
                                     </List.Content>
                                 </List.Item>
+                                
                                 <List.Item>
                                     <List.Content>
                                     Standardization of Environmental Clearance Conditions.... dt 09/08/2018
                                     </List.Content>
                                 </List.Item>
+                                
                                 <List.Item>
                                     <List.Content>
                                     Maharashtra Plastic ban booklet. dt 10/07/2018
