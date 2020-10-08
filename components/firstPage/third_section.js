@@ -46,9 +46,9 @@ export default function ThirdSection() {
                     <iframe 
                         className={styles.videoFrame}
                         src="https://www.youtube.com/embed/eVTXPUF4Oz4" 
-                        frameborder="0" 
+                        frameBorder="0" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
+                        allowFullScreen>
 
                     </iframe>
                 </div>
