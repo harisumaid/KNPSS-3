@@ -1,4 +1,4 @@
-export default (req,res)=>{
+export function datajsoning() {
     var details = {
         'data':[
             {
@@ -28,6 +28,9 @@ export default (req,res)=>{
             }
         ]
     }
+    return (JSON.stringify(details));
+}
 
-    res.json(JSON.stringify(details));
+export default (req,res)=>{
+    res.json(datajsoning());
 }
