@@ -27,6 +27,10 @@
     line-height: 1em;
 }
 
+.logo:hover{
+    color: white;
+}
+
 .title{
     position: absolute;
     right: 0px;
@@ -121,6 +125,64 @@
     margin-right: -2%;
 }
 
+.menuInDimmer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;    
+}
+
+.menuInDimmer h1{
+    font-size: 2vw;
+}
+
+.menuInDimmer a{
+    display: block;
+    padding: 4%;
+    color: grey;
+}
+
+.menuInDimmer a:hover{
+    color: #fff;
+}
+
+.menuInMobileOrTablet{
+    position: absolute;
+    visibility: collapse;
+    height: fit-content;
+    width: fit-content;
+    margin: auto;
+}
+
+#backInMenu{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 2vw;
+}
+
+.firstDivMenu{
+    padding: 4%;
+    flex-grow: 1;
+}
+
+.firstDivMenu a{
+    width: fit-content;
+    margin: auto;
+}
+
+.secondDivMenu{
+    padding: 4%;
+    flex-grow: 1;
+}
+
+.secondDivMenu a{
+    width: fit-content;
+    margin: auto;
+}
+
 @media (max-width:800px){
     .title{
         
@@ -142,6 +204,26 @@
     .helpUsDiv h1{
         font-size: 6vw;
     }
+
+    #backInMenu{
+        margin: 3vw;
+    }
+
+    .menuInDimmer h1{
+        font-size: 4vw;
+    }
+
+    .menuInMobileOrTablet{
+        visibility: visible;
+    }
+    .firstDivMenu{
+        visibility: collapse;
+    }
+    
+    .secondDivMenu{
+        visibility: collapse;
+    }
+    
 
 }
 
@@ -209,4 +291,14 @@
     #helpUsDonate{
         font-size: 3vw;
     }
+    
+    #backInMenu{
+        margin: 4vw;
+        
+    }
+
+    .menuInDimmer h1{
+        font-size: 5vw;
+    }
+
 }
