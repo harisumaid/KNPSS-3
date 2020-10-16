@@ -1,5 +1,6 @@
 import nextConnect from 'next-connect';
 import News from "../../models/news";
+import Gallery from '../../models/gallery';
 import mongooseConnection from '../../middleware/database'
 
 const multer = require('multer');
@@ -33,9 +34,6 @@ handler.post( async(req,res)=>{
         pdfPath.push(file.originalname)
     })
 
-    console.log(imgPath);
-    console.log(pdfPath);
-
     const news = new News({
         date: req.body.date,
         heading:req.body.heading,
@@ -45,9 +43,19 @@ handler.post( async(req,res)=>{
     }
     );
 
-    console.log(news.imagesPath);
-
     await news.save();
+
+    await News.findById(news._id, async function (err,news) {
+      const gallery = new Gallery({
+          type: 'news',
+          _id: news._id,
+          date: news.date,
+          image0Path: news.imagesPath[0]
+      });
+
+      await gallery.save();
+
+    } )
     
     res.json({ name: 'John Doe' })
 });

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
 var schema = new mongoose.Schema({
+    type: String,
     date: String,
-    title : String,
-    details: String,
-    filePath: String,
+    heading : String,
+    image0Path : String,
 });
 
 var model;
