@@ -23,3 +23,139 @@ a {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.second-div {
+  height: 100vh;
+  display: flex;
+  z-index: 999;
+  align-items: center;
+  justify-content: space-around;
+  
+}
+
+.bg-image-second-div {
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  background-image: url('../public/homepage_image.png');
+  filter: brightness(50%);
+  background-position: center;
+  background-size: cover;
+  z-index: -1;
+}
+
+.acheivements-header {
+  color: white;
+}
+
+.post-read {
+  padding: 10px;
+  color: black;
+  background-color: white;
+}
+
+.acheivements-gallery {
+  background:  transparent;
+}
+
+.post-read span {
+  margin-right: 10px;
+}
+
+
+
+
+ /* Extra small devices (phones, 600px and down) */
+ @media only screen and (max-width: 600px) {
+  .acheivements {
+    
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .acheivements-header {
+    font-size: 30px;
+
+  }
+
+  
+  
+}
+
+ /* Small devices (portrait tablets and large phones, 600px and up) */
+ @media only screen and (min-width: 600px) {
+  .acheivements {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .acheivements-header {
+    font-size: 32px;
+
+  }
+
+  .acheivements-gallery {
+    margin-top: 20px;
+  }
+ }
+ 
+ /* Medium devices (landscape tablets, 768px and up) */
+ @media only screen and (min-width: 768px) {
+  .acheivements {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .acheivements-header {
+    font-size: 35px;
+    
+  }
+
+  .acheivements-gallery { 
+    width: 600px;
+    margin-right: 60px;
+  }
+ }
+ 
+ /* Large devices (laptops/desktops, 992px and up) */
+ @media only screen and (min-width: 992px) {
+  .acheivements {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .acheivements-gallery { 
+    width: 800px;
+    margin-right: 60px;
+
+  }
+  .acheivements-header {
+    font-size: 30px;
+    
+
+  }
+ }
+ 
+ /* Extra large devices (large laptops and desktops, 1200px and up) */
+ @media only screen and (min-width: 1200px) {
+  .acheivements {
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .acheivements-gallery { 
+    width: 1000px;
+    margin-left: 50px;
+
+  }
+  .acheivements-header {
+    font-size: 40px;
+  }
+
+ } 
