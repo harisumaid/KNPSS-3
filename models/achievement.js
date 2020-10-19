@@ -1,19 +1,18 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 var achievementSchema = new mongoose.Schema({
-    date: String,
-    title : String,
-    details: String,
-    filePath: String,
+  date: { type: String, required: true },
+  heading: { type: String, required: true },
+  content: { type: String, required: true },
+  imagesPath: [{ type: String }],
+  pdfsPath: [{ type: String }],
 });
 
 var AchievementModel;
-try{
-    AchievementModel = mongoose.model('achievement');
-} catch{
-    AchievementModel = mongoose.model('achievement',achievementSchema);
+try {
+  AchievementModel = mongoose.model("achievement");
+} catch {
+  AchievementModel = mongoose.model("achievement", achievementSchema);
 }
-
-
 
 export default AchievementModel;

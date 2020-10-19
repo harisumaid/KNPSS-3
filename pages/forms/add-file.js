@@ -1,192 +1,260 @@
-import { Form, Dropdown, Ref, Dimmer, Loader } from 'semantic-ui-react'
-import styles from "../../styles/AddFile.module.css";
-import Head from 'next/head'
-import { useState, useRef, useEffect } from 'react'
-import Router from 'next/router';
+import { Field, Formik, useFormik } from "formik";
+import {
+  Form,
+  Segment,
+  Label,
+  Button,
+  Icon,
+  Input,
+  Select,
+} from "semantic-ui-react";
+import Head from "next/head";
+import { useState } from "react";
+import styles from "../../styles/components/forms/AddNews.module.css";
 
-let fileInput;
+export default function AddNews() {
+  const options = [
+    { key: "news", value: "news", text: "news" },
+    { key: "achievement", value: "achievement", text: "achievement" },
+  ];
 
-const FormOptions = [
-    {
-        key: 'news',
-        text: 'In the News',
-        value: 'news',
-    },
-    {
-        key: 'achievement',
-        text: 'Achievements',
-        value: 'achievement',
-    },
-    {
-        key: 'office',
-        text: 'Office Bearer',
-        value: 'office',
-    },
-    {
-        key: 'gallery',
-        text: 'Gallery',
-        value: 'gallery',
-    },
+  const [imageForms, addImageForms] = useState([]);
+  const [pdfForms, addPdfForms] = useState([]);
+  const [typeForm, changeTypeForm] = useState("");
 
-];
-
-export default function AddFile() {
-    const [formType, setFormType] = useState(null);
-    const [showLoader,setShowLoader] = useState(false);
-
-    useEffect(() => {
-        (async() => {
-            const token = localStorage.getItem('token');
-            if(!token) {
-                Router.push('/user/login');
-            } 
-        })()
-    })
-
-
-
-    let showForms;
-
-
-    if (formType == 'news') {
-        showForms = <ForNews />
-    } else if (formType == 'achievement') {
-        showForms = <ForAchievement />
-    } else if (formType == 'office') {
-        showForms = <ForOffice />
-    } else if (formType == 'gallery') {
-        showForms = <ForGallery />
-    } else {
-        showForms = <div></div>
-    }
-
-    return (
-        <div className={styles.baseForm}>
-            <Head>
-                <title>
-                    Add File Page
-                </title>
-            </Head>
-            <h1>
-                Add files
-            </h1>
-            <Dropdown
-                name='formSelect'
-                label='Enter Type of Form'
-                placeholder='Select type of Form'
-                fluid
-                selection
-                options={FormOptions}
-                onChange={(e, d) => setFormType(d.value)}
-                required
-            />
-            {showForms}
-            <Dimmer active={showLoader} >
-                <Loader active={showLoader} > Adding Data to database </Loader>
-            </Dimmer>
-
-        </div>
-    );
-
-    function FormElement(props) {
-        fileInput = useRef();
-        if (props.type == 'file') {
-            return (
-                <Form.Field>
-                    <Ref innerRef={fileInput}>
-                        <Form.Input
-                            name={props.name}
-                            label={props.label}
-                            type={props.type}
-                            as={props.as}
-                            placeholder={props.placeholder}
-                            required />
-                    </Ref>
-                </Form.Field>);
-        } else {
-            return (
-                <Form.Field>
-                    <Form.Input
-                        name={props.name}
-                        label={props.label}
-                        type={props.type}
-                        as={props.as}
-                        placeholder={props.placeholder}
-                        required />
-                </Form.Field>
-            );
+  const addMoreFile = (type) => {
+    switch (type) {
+      case "image":
+        if (imageForms.length == 0) {
+          addImageForms([1]);
+          break;
         }
-    }
-
-    function ForNews(props) {
-        return (
-            <Form onSubmit={onSubmit} encType='multipart/form-data'>
-                <FormElement name='date' label="Enter Date" type="date" />
-                <FormElement name='title' label="Enter Title" type="text" placeholder="Title" />
-                <Form.TextArea name='details' label='Enter Details' placeholder='Details' />
-                <FormElement name='file' label='Enter File' type='file' />
-                <Form.Button content='submit' />
-            </Form>
-        );
-    }
-
-    function ForAchievement(props) {
-        return (
-            <ForNews />
-        );
-    }
-
-    function ForOffice(props) {
-        return (
-            <Form onSubmit={onSubmit} encType='multipart/form-data'>
-                <FormElement name='name' label="Enter Office Bearer's Name" type="text" placeholder="His Name" />
-                <FormElement name='designation' label="Enter Office Bearer's Designation" type="text" placeholder="His Designation" />
-                <FormElement name='file' label="Enter Office Bearer's Image" type='file' />
-                <Form.Button content='SUBMIT' />
-            </Form>
-        );
-    }
-
-    function ForGallery(props) {
-        return (
-            <Form onSubmit={onSubmit} encType='multipart/form-data'>
-                <FormElement name='date' label="Enter Date" type="date" />
-                <FormElement name='title' label="Enter Title" type="text" placeholder="Title" />
-                <Form.TextArea name='details' label='Enter Details' placeholder='Details' />
-                <FormElement name='file' label='Enter Image' type='file' />
-                <Form.Button content='SUBMIT' />
-            </Form>
-        );
-    }
-
-    async function onSubmit(e) {
-        e.preventDefault();
-        const formData = new FormData();
-        setShowLoader(true);
-
-        // only checking for office cause office's form submission field are different,
-        //  while the rest of the forms are same
-        if (formType == 'office') {
-            formData.append('formType', formType);
-            formData.append('name', e.currentTarget.name.value);
-            formData.append('designation', e.currentTarget.designation.value);
-            formData.append('file', fileInput.current.childNodes[1].firstChild.files[0]);
-        } else {
-            formData.append('formType', formType);
-            formData.append('date', e.currentTarget.date.value);
-            formData.append('title', e.currentTarget.title.value);
-            formData.append('details', e.currentTarget.details.value);
-            formData.append('file', fileInput.current.childNodes[1].firstChild.files[0]);
+        addImageForms([...imageForms, imageForms[imageForms.length - 1] + 1]);
+        break;
+      case "pdf":
+        if (pdfForms.length == 0) {
+          addPdfForms([1]);
+          break;
         }
+        addPdfForms([...pdfForms, pdfForms[pdfForms.length - 1] + 1]);
+        break;
 
-        const response = await fetch('/api/formProcess', {
-            method: 'POST',
-            body: formData,
+      default:
+        break;
+    }
+  };
+
+  const removeFile = (type, element) => {
+    let changedArray = [];
+    switch (type) {
+      case "image":
+        imageForms.forEach(function (currentValue) {
+          if (currentValue != element) {
+            changedArray.push(currentValue);
+          }
         });
-        const res = await response.json();
-        if (res.status == 'File recieved and Stored') {
-            console.log('response success');
-            window.location.reload(true);
-        }
+        delete formik.values.images.element;
+        addImageForms(changedArray);
+        break;
+      case "pdf":
+        pdfForms.forEach(function (currentValue) {
+          if (currentValue != element) {
+            changedArray.push(currentValue);
+          }
+        });
+        addPdfForms(changedArray);
+        break;
+
+      default:
+        break;
     }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      type: typeForm,
+      date: new Date().toISOString().substr(0, 10),
+      heading: "",
+      content: "",
+      images: {},
+      pdfs: {},
+    },
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      Object.keys(values).forEach((value) => {
+        if (value === "images" || value === "pdfs") {
+          console.log(value);
+          let index;
+          for (index in values[value]) {
+            console.log(values[value][index]);
+            formData.append(value, values[value][index]);
+          }
+        } else {
+          console.log(values[value]);
+          formData.append(value, values[value]);
+        }
+      });
+      const api =
+        typeForm === "news" ? "/api/formsNews" : "/api/formsAchievement";
+      const response = await fetch(api, {
+        method: "POST",
+        body: formData,
+      });
+
+      const res = await response.json();
+
+      console.log(res);
+
+      alert(JSON.stringify(values, null, 3));
+    },
+    setFieldValue: (field, value) => {
+      if (field === "type") {
+        values.type = value;
+      } else {
+        delete values.field;
+      }
+    },
+  });
+
+  return (
+    <>
+      <Head>
+        <title>News Form</title>
+      </Head>
+      <Segment>
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Input
+            control={Select}
+            required
+            options={options}
+            label="Type of Content"
+            placeholder="Select type of content"
+            name="type"
+            id="type"
+            onChange={(e) => {
+              console.log(formik.values.type);
+              changeTypeForm(e.target.textContent);
+              formik.setFieldValue("type", e.target.textContent);
+              console.log(formik.values.type);
+            }}
+            // onChange={formik.handleChange}
+            // onBlur={formik.handleBlur}
+          />
+          {typeForm && (
+            <>
+              <Form.Input
+                required
+                label="Date"
+                type="date"
+                id="date"
+                name="date"
+                value={formik.values.date}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <Form.Input
+                required
+                label="Headline"
+                type="text"
+                placeholder="Heading about the content"
+                id="heading"
+                name="heading"
+                value={formik.values.heading}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <Form.TextArea
+                required
+                label="Details"
+                placeholder="Details about the content"
+                id="content"
+                name="content"
+                value={formik.values.content}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <Label> Enter Images </Label>
+              <br />
+              <Segment>
+                {imageForms.map((index) => {
+                  return (
+                    <Form.Group key={`group ${index}`}>
+                      <Form.Input
+                        required
+                        placeholder={`image no.${index}`}
+                        type="file"
+                        key={`image input ${index}`}
+                        id={`images.${index}`}
+                        name={`images.${index}`}
+                        value={formik.values.images.index}
+                        onChange={(e) => {
+                          formik.setFieldValue(
+                            `images.${index}`,
+                            e.currentTarget.files[0]
+                          );
+                        }}
+                        onBlur={formik.handleBlur}
+                      />
+                      <Button
+                        icon="minus"
+                        onClick={() => {
+                          removeFile("image", index);
+                          formik.setFieldValue(`images.${index}`);
+                        }}
+                        key={`input button ${index}`}
+                      />
+                    </Form.Group>
+                  );
+                })}
+                <Button onClick={() => addMoreFile("image")}>
+                  <Icon name="plus" />
+                  Add More Image
+                </Button>
+              </Segment>
+              <Label> Enter Pdfs </Label>
+              <br />
+              <Segment>
+                {pdfForms.map((index) => {
+                  return (
+                    <Form.Group key={`group ${index}`}>
+                      <Form.Input
+                        required
+                        name="files"
+                        placeholder={`pdf no.${index}`}
+                        type="file"
+                        key={`pdf input ${index}`}
+                        id={`pdfs.${index}`}
+                        name={`pdfs.${index}`}
+                        value={formik.values.pdfs.index}
+                        onChange={(e) => {
+                          formik.setFieldValue(
+                            `pdfs.${index}`,
+                            e.currentTarget.files[0]
+                          );
+                        }}
+                        onBlur={formik.handleBlur}
+                      />
+                      <Button
+                        icon="minus"
+                        onClick={() => {
+                          removeFile("pdf", index);
+                          formik.setFieldValue(`pdfs.${index}`);
+                        }}
+                        key={`pdf button ${index}`}
+                      />
+                    </Form.Group>
+                  );
+                })}
+                <Button onClick={() => addMoreFile("pdf")}>
+                  <Icon name="plus" />
+                  Add More Pdf
+                </Button>
+              </Segment>
+              <Button type="submit">Submit</Button>
+            </>
+          )}
+        </Form>
+      </Segment>
+    </>
+  );
 }
