@@ -1,3 +1,26 @@
-.Div {
-  border: 3px green solid;
+#mainSegment{
+  min-height: 100vh;
+  padding: 10%;
+}
+
+#mediaSegment{
+  flex-direction: column;
+}
+
+
+@media (max-width:800px){
+  #mediaButton{
+    width: fit-content;
+    align-self: flex-end;
+    margin-top: 1%;
+    margin-bottom: 1rem;
+  }
+  
+}
+
+@media (min-width : 800px){
+  #mediaSegment{
+    flex-direction: row;
+  }
+  
 }

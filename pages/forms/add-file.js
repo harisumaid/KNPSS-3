@@ -10,6 +10,7 @@ import {
 } from "semantic-ui-react";
 import Head from "next/head";
 import { useState } from "react";
+import * as Yup from "yup";
 import styles from "../../styles/components/forms/AddNews.module.css";
 
 export default function AddNews() {
@@ -70,6 +71,13 @@ export default function AddNews() {
     }
   };
 
+  const validationSchema = Yup.object({
+    type: Yup.string().required('Required'),
+    date: Yup.date().max(new Date(),`date must be less than ${new Date().toISOString().substr(0,10)}`).required('Enter a date please'),
+    heading: Yup.string().required("Heading Required"),
+    content: Yup.string().required("Some Details Required"),
+  });
+
   const formik = useFormik({
     initialValues: {
       type: typeForm,
@@ -79,6 +87,7 @@ export default function AddNews() {
       images: {},
       pdfs: {},
     },
+    validationSchema: validationSchema,
     onSubmit: async (values) => {
       const formData = new FormData();
       Object.keys(values).forEach((value) => {
@@ -94,16 +103,16 @@ export default function AddNews() {
           formData.append(value, values[value]);
         }
       });
-      const api =
-        typeForm === "news" ? "/api/formsNews" : "/api/formsAchievement";
-      const response = await fetch(api, {
-        method: "POST",
-        body: formData,
-      });
+      // const api =
+      //   typeForm === "news" ? "/api/formsNews" : "/api/formsAchievement";
+      // const response = await fetch(api, {
+      //   method: "POST",
+      //   body: formData,
+      // });
 
-      const res = await response.json();
+      // const res = await response.json();
 
-      console.log(res);
+      // console.log(res);
 
       alert(JSON.stringify(values, null, 3));
     },
@@ -121,7 +130,7 @@ export default function AddNews() {
       <Head>
         <title>News Form</title>
       </Head>
-      <Segment>
+      <Segment id={styles.mainSegment}>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Input
             control={Select}
@@ -134,7 +143,7 @@ export default function AddNews() {
             onChange={(e) => {
               console.log(formik.values.type);
               changeTypeForm(e.target.textContent);
-              formik.setFieldValue("type", e.target.textContent);
+              formik.setFieldValue("type", e.target.textContent,true);
               console.log(formik.values.type);
             }}
             // onChange={formik.handleChange}
@@ -143,7 +152,6 @@ export default function AddNews() {
           {typeForm && (
             <>
               <Form.Input
-                required
                 label="Date"
                 type="date"
                 id="date"
@@ -151,9 +159,9 @@ export default function AddNews() {
                 value={formik.values.date}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                error={ formik.touched.date && formik.errors.date?{content:formik.errors.date}:null}
               />
               <Form.Input
-                required
                 label="Headline"
                 type="text"
                 placeholder="Heading about the content"
@@ -162,9 +170,9 @@ export default function AddNews() {
                 value={formik.values.heading}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                error={formik.touched.heading && formik.errors.heading?{content:formik.errors.heading}:null}
               />
               <Form.TextArea
-                required
                 label="Details"
                 placeholder="Details about the content"
                 id="content"
@@ -172,13 +180,14 @@ export default function AddNews() {
                 value={formik.values.content}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                error={formik.touched.content && formik.errors.content?{content:formik.errors.content}:null}
               />
               <Label> Enter Images </Label>
               <br />
-              <Segment>
+              <Segment >
                 {imageForms.map((index) => {
                   return (
-                    <Form.Group key={`group ${index}`}>
+                    <Form.Group key={`group ${index}`} id={styles.mediaSegment}  >
                       <Form.Input
                         required
                         placeholder={`image no.${index}`}
@@ -202,6 +211,7 @@ export default function AddNews() {
                           formik.setFieldValue(`images.${index}`);
                         }}
                         key={`input button ${index}`}
+                        id={styles.mediaButton}
                       />
                     </Form.Group>
                   );
@@ -216,7 +226,7 @@ export default function AddNews() {
               <Segment>
                 {pdfForms.map((index) => {
                   return (
-                    <Form.Group key={`group ${index}`}>
+                    <Form.Group key={`group ${index}`} id={styles.mediaSegment} >
                       <Form.Input
                         required
                         name="files"
@@ -235,6 +245,7 @@ export default function AddNews() {
                         onBlur={formik.handleBlur}
                       />
                       <Button
+                        id={styles.mediaButton}
                         icon="minus"
                         onClick={() => {
                           removeFile("pdf", index);
