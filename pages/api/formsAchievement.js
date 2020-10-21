@@ -34,8 +34,8 @@ const AWS = require("aws-sdk");
 const s3 = new AWS.S3({
   apiVersion: "2006-03-01",
   region: "ap-south-1",
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.MY_ACCESS_KEY,
+  secretAccessKey: process.env.MY_SECRET_ACCESS_KEY,
 });
 
 function onError(err, req, res) {
@@ -57,15 +57,19 @@ handler.post(async (req, res) => {
   console.log("Upload sequence initiating....");
 
   let imgPath = [];
-  console.log(req.files.images);
-  console.log(req.files.pdfs);
+  // console.log(req.files.images);
+  // console.log(req.files.pdfs);
   const promise1 = !req.files.images
     ? null
     : req.files.images.map(async (file) => {
         console.log("Uploading images....");
         const param = {
           Bucket: process.env.AWS_BUCKET,
-          Key: "files/achievement/images/" + file.originalname,
+          Key:
+            "files/achievement/images/" +
+            new Date().toISOString() +
+            "_" +
+            file.originalname,
           Body: file.buffer,
         };
         const aws_file = await s3.upload(param).promise();
@@ -80,7 +84,11 @@ handler.post(async (req, res) => {
         console.log("Uploading pdfs....");
         const param = {
           Bucket: process.env.AWS_BUCKET,
-          Key: "files/achievement/pdfs/" + file.originalname,
+          Key:
+            "files/achievement/pdfs/" +
+            new Date().toISOString() +
+            "_" +
+            file.originalname,
           Body: file.buffer,
         };
         const aws_file = await s3.upload(param).promise();

@@ -280,12 +280,14 @@ export default function AddNews() {
                         name={`pdfs.${index}`}
                         value={formik.values.pdfs.index}
                         onChange={(e) => {
+                          fileFormatError? toggleFileFormatError(false) : null;
                           formik.setFieldValue(
                             `pdfs.${index}`,
                             e.currentTarget.files[0]
                           );
                         }}
                         onBlur={formik.handleBlur}
+                        error={ fileFormatError?"Please provide file of specified format":null}
                       />
                       <Button
                         id={styles.mediaButton}
