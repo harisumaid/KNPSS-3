@@ -5,9 +5,41 @@ import mongooseConnection from "../../middleware/database";
 
 const multer = require("multer");
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const fileFilter = (req, file, cb) => {
+  console.log("Was here");
+  if (
+    file.fieldname === "images" &&
+    !(
+      file.mimetype === "image/png" ||
+      file.mimetype === "image/jpg" ||
+      file.mimetype === "image/jpeg"
+    )
+  ) {
+    cb(new Error("File format not matched"));
+  } else if (
+    file.fieldname === "pdfs" &&
+    !(
+      file.mimetype === "application/pdf" ||
+      file.mimetype ===
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
+  ) {
+    cb(new Error("File format not matched"));
+  } else {
+    cb(null, true);
+  }
+};
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 const AWS = require("aws-sdk");
+
+// AWS.config.update({
+//   'accessKeyId': process.env.AWS_ACCESS_KEY_ID_MYAPP,
+//   'secretAccessKey': process.env.AWS_SECRET_ACCESS_KEY_MYAPP,
+//   'region': process.env.AWS_REGION_MYAPP,
+//     'bucketname': process.env.AWS_BUCKET_NAME
+// })
+
 const s3 = new AWS.S3({
   apiVersion: "2006-03-01",
   region: "ap-south-1",
@@ -15,7 +47,18 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-const handler = nextConnect();
+function onError(err, req, res) {
+  if (err.message === "File format not matched") {
+    res.status(200).json({
+      error: "File format not matched",
+    });
+  }
+
+  res.status(500).json({ error: err.toString() });
+  // OR: you may want to continue
+}
+
+const handler = nextConnect({ onError });
 
 handler.use(upload.fields([{ name: "images" }, { name: "pdfs" }]));
 
@@ -25,31 +68,35 @@ handler.post(async (req, res) => {
   let imgPath = [];
   console.log(req.files.images);
   console.log(req.files.pdfs);
-  const promise1 = req.files.images.map(async (file) => {
-    console.log("Uploading images....");
-    const param = {
-      Bucket: process.env.AWS_BUCKET,
-      Key: "files/news/images/" + file.originalname,
-      Body: file.buffer,
-    };
-    const aws_file = await s3.upload(param).promise();
-    return aws_file.Location;
-  });
-  imgPath = await Promise.all(promise1);
+  const promise1 = !req.files.images
+    ? null
+    : req.files.images.map(async (file) => {
+        console.log("Uploading images....");
+        const param = {
+          Bucket: process.env.AWS_BUCKET,
+          Key: "files/news/images/" + file.originalname,
+          Body: file.buffer,
+        };
+        const aws_file = await s3.upload(param).promise();
+        return aws_file.Location;
+      });
+  imgPath = req.files.images ? await Promise.all(promise1) : [];
   console.log(imgPath);
   let pdfPath = [];
-  const promise2 = req.files.pdfs.map(async (file) => {
-    console.log("Uploading pdfs....");
-    const param = {
-      Bucket: process.env.AWS_BUCKET,
-      Key: "files/news/pdfs/" + file.originalname,
-      Body: file.buffer,
-    };
-    const aws_file = await s3.upload(param).promise();
+  const promise2 = !req.files.pdfs
+    ? null
+    : req.files.pdfs.map(async (file) => {
+        console.log("Uploading pdfs....");
+        const param = {
+          Bucket: process.env.AWS_BUCKET,
+          Key: "files/news/pdfs/" + file.originalname,
+          Body: file.buffer,
+        };
+        const aws_file = await s3.upload(param).promise();
 
-    return aws_file.Location;
-  });
-  pdfPath = await Promise.all(promise2);
+        return aws_file.Location;
+      });
+  pdfPath = promise2 ? await Promise.all(promise2) : [];
   console.log(pdfPath);
   const news = new News({
     date: req.body.date,

@@ -7,6 +7,10 @@ import {
   Icon,
   Input,
   Select,
+  Message,
+  Dimmer,
+  Loader,
+  Header,
 } from "semantic-ui-react";
 import Head from "next/head";
 import { useState } from "react";
@@ -22,6 +26,8 @@ export default function AddNews() {
   const [imageForms, addImageForms] = useState([]);
   const [pdfForms, addPdfForms] = useState([]);
   const [typeForm, changeTypeForm] = useState("");
+  const [fileFormatError, toggleFileFormatError] = useState(false);
+  const [formProcessing, changeFormProcessing] = useState(false);
 
   const addMoreFile = (type) => {
     switch (type) {
@@ -72,8 +78,13 @@ export default function AddNews() {
   };
 
   const validationSchema = Yup.object({
-    type: Yup.string().required('Required'),
-    date: Yup.date().max(new Date(),`date must be less than ${new Date().toISOString().substr(0,10)}`).required('Enter a date please'),
+    type: Yup.string().required("Required"),
+    date: Yup.date()
+      .max(
+        new Date(),
+        `date must be less than ${new Date().toISOString().substr(0, 10)}`
+      )
+      .required("Enter a date please"),
     heading: Yup.string().required("Heading Required"),
     content: Yup.string().required("Some Details Required"),
   });
@@ -88,7 +99,8 @@ export default function AddNews() {
       pdfs: {},
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values,{resetForm}) => {
+      changeFormProcessing(true);
       const formData = new FormData();
       Object.keys(values).forEach((value) => {
         if (value === "images" || value === "pdfs") {
@@ -103,16 +115,29 @@ export default function AddNews() {
           formData.append(value, values[value]);
         }
       });
-      // const api =
-      //   typeForm === "news" ? "/api/formsNews" : "/api/formsAchievement";
-      // const response = await fetch(api, {
-      //   method: "POST",
-      //   body: formData,
-      // });
+      const api =
+        typeForm === "news" ? "/api/formsNews" : "/api/formsAchievement";
+      const response = await fetch(api, {
+        method: "POST",
+        body: formData,
+      });
 
-      // const res = await response.json();
+      const res = await response.json();
 
-      // console.log(res);
+      changeFormProcessing(false);
+
+      if (res.error) {
+        // jhol jhaal hai
+        console.log(res.error);
+        toggleFileFormatError(true);
+      } else {
+        if (res.result === 'success') {
+          addImageForms([]);
+          addPdfForms([]);
+          resetForm();
+        }
+        console.log(res.result);
+      }
 
       alert(JSON.stringify(values, null, 3));
     },
@@ -130,6 +155,9 @@ export default function AddNews() {
       <Head>
         <title>News Form</title>
       </Head>
+      <Dimmer page active={formProcessing}>
+        <Loader active={formProcessing} >Sending files. Please wait!!!</Loader>
+      </Dimmer>
       <Segment id={styles.mainSegment}>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Input
@@ -143,7 +171,7 @@ export default function AddNews() {
             onChange={(e) => {
               console.log(formik.values.type);
               changeTypeForm(e.target.textContent);
-              formik.setFieldValue("type", e.target.textContent,true);
+              formik.setFieldValue("type", e.target.textContent, true);
               console.log(formik.values.type);
             }}
             // onChange={formik.handleChange}
@@ -159,7 +187,11 @@ export default function AddNews() {
                 value={formik.values.date}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={ formik.touched.date && formik.errors.date?{content:formik.errors.date}:null}
+                error={
+                  formik.touched.date && formik.errors.date
+                    ? { content: formik.errors.date }
+                    : null
+                }
               />
               <Form.Input
                 label="Headline"
@@ -170,7 +202,11 @@ export default function AddNews() {
                 value={formik.values.heading}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={formik.touched.heading && formik.errors.heading?{content:formik.errors.heading}:null}
+                error={
+                  formik.touched.heading && formik.errors.heading
+                    ? { content: formik.errors.heading }
+                    : null
+                }
               />
               <Form.TextArea
                 label="Details"
@@ -180,14 +216,18 @@ export default function AddNews() {
                 value={formik.values.content}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={formik.touched.content && formik.errors.content?{content:formik.errors.content}:null}
+                error={
+                  formik.touched.content && formik.errors.content
+                    ? { content: formik.errors.content }
+                    : null
+                }
               />
               <Label> Enter Images </Label>
               <br />
-              <Segment >
+              <Segment>
                 {imageForms.map((index) => {
                   return (
-                    <Form.Group key={`group ${index}`} id={styles.mediaSegment}  >
+                    <Form.Group key={`group ${index}`} id={styles.mediaSegment}>
                       <Form.Input
                         required
                         placeholder={`image no.${index}`}
@@ -197,12 +237,15 @@ export default function AddNews() {
                         name={`images.${index}`}
                         value={formik.values.images.index}
                         onChange={(e) => {
+                          fileFormatError? toggleFileFormatError(false) : null;
                           formik.setFieldValue(
                             `images.${index}`,
                             e.currentTarget.files[0]
                           );
                         }}
                         onBlur={formik.handleBlur}
+                        error={ fileFormatError?"Please provide file of specified format":null}
+
                       />
                       <Button
                         icon="minus"
@@ -226,7 +269,7 @@ export default function AddNews() {
               <Segment>
                 {pdfForms.map((index) => {
                   return (
-                    <Form.Group key={`group ${index}`} id={styles.mediaSegment} >
+                    <Form.Group key={`group ${index}`} id={styles.mediaSegment}>
                       <Form.Input
                         required
                         name="files"
@@ -261,7 +304,8 @@ export default function AddNews() {
                   Add More Pdf
                 </Button>
               </Segment>
-              <Button type="submit">Submit</Button>
+              { fileFormatError && <Message error > Please provide file of specified format</Message>}
+              <Button type="submit" positive disabled={formProcessing} >Submit</Button>
             </>
           )}
         </Form>

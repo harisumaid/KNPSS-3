@@ -11,6 +11,7 @@
 @media (max-width:800px){
   #mediaButton{
     width: fit-content;
+    height: fit-content;
     align-self: flex-end;
     margin-top: 1%;
     margin-bottom: 1rem;
@@ -21,6 +22,13 @@
 @media (min-width : 800px){
   #mediaSegment{
     flex-direction: row;
+  }
+  #mediaButton{
+    width: fit-content;
+    height: fit-content;
+    align-self: flex-start;
+    /* margin-top: 1%; */
+    /* margin-bottom: 1rem; */
   }
   
 }
