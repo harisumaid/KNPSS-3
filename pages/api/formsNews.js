@@ -72,7 +72,7 @@ handler.post(async (req, res) => {
     : req.files.images.map(async (file) => {
         console.log("Uploading images....");
         const param = {
-          Bucket: process.env.MY_BUCKET,
+          Bucket: 'knpss',
           Key:
             "files/news/images/" +
             new Date().toISOString() +
