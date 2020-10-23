@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 
 var schema = new mongoose.Schema({
-    date: String,
-    title : String,
-    details: String,
-    filePath: String,
+    date: {type:String, required:true},
+    heading: {type:String, required:true},
+    content: {type:String, required:true},
+    imagesPath: [{type:String}],
+    pdfsPath:[{type:String}],
 });
 
 var model;
