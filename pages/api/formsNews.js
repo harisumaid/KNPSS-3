@@ -40,6 +40,9 @@ const AWS = require("aws-sdk");
 // })
 
 const s3 = new AWS.S3({
+  params:{
+    Bucket: process.env.MY_BUCKET,
+  },
   apiVersion: "2006-03-01",
   region: "ap-south-1",
   accessKeyId: process.env.MY_ACCESS_KEY,
@@ -72,7 +75,6 @@ handler.post(async (req, res) => {
     : req.files.images.map(async (file) => {
         console.log("Uploading images....");
         const param = {
-          Bucket: 'knpss',
           Key:
             "files/news/images/" +
             new Date().toISOString() +
@@ -91,7 +93,6 @@ handler.post(async (req, res) => {
     : req.files.pdfs.map(async (file) => {
         console.log("Uploading pdfs....");
         const param = {
-          Bucket: process.env.AWS_BUCKET,
           Key:
             "files/news/pdfs/" +
             new Date().toISOString() +

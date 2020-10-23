@@ -11,6 +11,7 @@ import {
   Dimmer,
   Loader,
   Header,
+  Modal,
 } from "semantic-ui-react";
 import Head from "next/head";
 import { useState } from "react";
@@ -28,6 +29,7 @@ export default function AddNews() {
   const [typeForm, changeTypeForm] = useState("");
   const [fileFormatError, toggleFileFormatError] = useState(false);
   const [formProcessing, changeFormProcessing] = useState(false);
+  const [showModelAfterProcess, changeModelAfterProcess] = useState(null);
 
   const addMoreFile = (type) => {
     switch (type) {
@@ -99,19 +101,16 @@ export default function AddNews() {
       pdfs: {},
     },
     validationSchema: validationSchema,
-    onSubmit: async (values,{resetForm}) => {
+    onSubmit: async (values, { resetForm }) => {
       changeFormProcessing(true);
       const formData = new FormData();
       Object.keys(values).forEach((value) => {
         if (value === "images" || value === "pdfs") {
-          console.log(value);
           let index;
           for (index in values[value]) {
-            console.log(values[value][index]);
             formData.append(value, values[value][index]);
           }
         } else {
-          console.log(values[value]);
           formData.append(value, values[value]);
         }
       });
@@ -129,17 +128,26 @@ export default function AddNews() {
       if (res.error) {
         // jhol jhaal hai
         console.log(res.error);
-        toggleFileFormatError(true);
+        if (res.error === "File format not matched") {
+          toggleFileFormatError(true);
+        } else {
+          changeModelAfterProcess({
+            type: "error",
+            content: "Sorry could complete the task, \n Reason : " + res.error,
+          });
+        }
       } else {
-        if (res.result === 'success') {
+        if (res.result === "success") {
           addImageForms([]);
           addPdfForms([]);
+          changeModelAfterProcess({
+            type: "success",
+            content: "Files added successfully",
+          });
           resetForm();
         }
         console.log(res.result);
       }
-
-      alert(JSON.stringify(values, null, 3));
     },
     setFieldValue: (field, value) => {
       if (field === "type") {
@@ -150,13 +158,72 @@ export default function AddNews() {
     },
   });
 
+  const successModal = () => {
+    return (
+      <Modal
+        basic
+        onClose={() => changeModelAfterProcess(null)}
+        onOpen={() => changeModelAfterProcess(null)}
+        open={showModelAfterProcess != null ? true : false}
+        size="small"
+      >
+        <Header icon>
+          <Icon name="check"></Icon>
+          {showModelAfterProcess.content}
+        </Header>
+        <Modal.Actions>
+          <Button
+            color="green"
+            inverted
+            onClick={() => changeModelAfterProcess(null)}
+          >
+            <Icon name="checkmark" /> OK
+          </Button>
+        </Modal.Actions>
+      </Modal>
+    );
+  };
+
+  const failureModal = () => {
+    return (
+      <>
+        <Modal
+          basic
+          onClose={() => changeModelAfterProcess(null)}
+          onOpen={() => changeModelAfterProcess(null)}
+          open={showModelAfterProcess != null ? true : false}
+          size="small"
+        >
+          <Header icon>
+            <Icon name="window close outline"></Icon>
+            {showModelAfterProcess.content}
+          </Header>
+          <Modal.Actions>
+            <Button
+              color="red"
+              inverted
+              onClick={() => changeModelAfterProcess(null)}
+            >
+              <Icon name="checkmark" /> OK
+            </Button>
+          </Modal.Actions>
+        </Modal>
+      </>
+    );
+  };
+
   return (
     <>
       <Head>
         <title>News Form</title>
       </Head>
+      {showModelAfterProcess == null
+        ? null
+        : showModelAfterProcess.type === "success"
+        ? successModal()
+        : failureModal()}
       <Dimmer page active={formProcessing}>
-        <Loader active={formProcessing} >Sending files. Please wait!!!</Loader>
+        <Loader active={formProcessing}>Sending files. Please wait!!!</Loader>
       </Dimmer>
       <Segment id={styles.mainSegment}>
         <Form onSubmit={formik.handleSubmit}>
@@ -169,10 +236,8 @@ export default function AddNews() {
             name="type"
             id="type"
             onChange={(e) => {
-              console.log(formik.values.type);
               changeTypeForm(e.target.textContent);
-              formik.setFieldValue("type", e.target.textContent, true);
-              console.log(formik.values.type);
+              formik.setFieldValue("type", e.target.textContent, true);              
             }}
             // onChange={formik.handleChange}
             // onBlur={formik.handleBlur}
@@ -237,15 +302,18 @@ export default function AddNews() {
                         name={`images.${index}`}
                         value={formik.values.images.index}
                         onChange={(e) => {
-                          fileFormatError? toggleFileFormatError(false) : null;
+                          fileFormatError ? toggleFileFormatError(false) : null;
                           formik.setFieldValue(
                             `images.${index}`,
                             e.currentTarget.files[0]
                           );
                         }}
                         onBlur={formik.handleBlur}
-                        error={ fileFormatError?"Please provide file of specified format":null}
-
+                        error={
+                          fileFormatError
+                            ? "Please provide file of specified format"
+                            : null
+                        }
                       />
                       <Button
                         icon="minus"
@@ -280,14 +348,18 @@ export default function AddNews() {
                         name={`pdfs.${index}`}
                         value={formik.values.pdfs.index}
                         onChange={(e) => {
-                          fileFormatError? toggleFileFormatError(false) : null;
+                          fileFormatError ? toggleFileFormatError(false) : null;
                           formik.setFieldValue(
                             `pdfs.${index}`,
                             e.currentTarget.files[0]
                           );
                         }}
                         onBlur={formik.handleBlur}
-                        error={ fileFormatError?"Please provide file of specified format":null}
+                        error={
+                          fileFormatError
+                            ? "Please provide file of specified format"
+                            : null
+                        }
                       />
                       <Button
                         id={styles.mediaButton}
@@ -306,8 +378,15 @@ export default function AddNews() {
                   Add More Pdf
                 </Button>
               </Segment>
-              { fileFormatError && <Message error > Please provide file of specified format</Message>}
-              <Button type="submit" positive disabled={formProcessing} >Submit</Button>
+              {fileFormatError && (
+                <Message error>
+                  {" "}
+                  Please provide file of specified format
+                </Message>
+              )}
+              <Button type="submit" positive disabled={formProcessing}>
+                Submit
+              </Button>
             </>
           )}
         </Form>
