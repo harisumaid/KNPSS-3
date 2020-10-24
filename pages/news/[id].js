@@ -1,6 +1,10 @@
 import { fetchIdList,fetchForId } from '../../lib/fetchForNews'
-
+import { useRouter } from 'next/router'
 export default function Post({ news }) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <div>...Loading</div>  
+  }
   return (
     <div>
       <ul>
@@ -32,7 +36,7 @@ export async function getStaticPaths(){
     const paths = await fetchIdList();
     return {
         paths,
-        fallback: false,
+        fallback: true,
     }
 }
 
