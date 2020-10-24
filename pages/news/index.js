@@ -27,5 +27,6 @@ export async function getStaticProps() {
     props: {
       newsProps,
     },
+    revalidate: 1
   };
 }
