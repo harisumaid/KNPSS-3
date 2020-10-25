@@ -121,6 +121,7 @@ handler.post(async (req, res) => {
     _id: news._id,
     date: news.date,
     image0Path: news.imagesPath[0],
+    heading: news.heading,
   });
 
   await gallery.save();

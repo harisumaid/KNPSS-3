@@ -116,6 +116,7 @@ handler.post(async (req, res) => {
     _id: achievement._id,
     date: achievement.date,
     image0Path: achievement.imagesPath[0],
+    heading: achievement.heading,
   });
 
   await gallery.save();
