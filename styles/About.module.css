@@ -1,0 +1,25 @@
+#Divider{
+    font-size: 6vw;
+}
+
+#gridForMission{
+    width: fit-content;
+}
+
+#gridMain{
+    margin: 2vw;
+}
+
+@media (min-width:800px){
+    #Divider{
+        font-size: 3vw;
+    }   
+
+    #gridForMission{
+        width: fit-content;
+    }
+    .listMissions{
+        width: 80%;
+        margin: 0 auto;
+    }
+}

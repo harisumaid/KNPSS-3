@@ -32,10 +32,10 @@ export default function Gallery({ Gallery }) {
 }
 
 export async function getStaticProps() {
-  const Gallery = JSON.stringify(await fetchAllGallery());
+  const Gallery = JSON.parse(await fetchAllGallery());
   return {
     props: {
-      Gallery: JSON.parse(Gallery),
+      Gallery
     },
     revalidate: 1,
   };
