@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, Dimmer, Button, Icon } from "semantic-ui-react";
-import styles from '../styles/components/Navbar.module.css'
-import Link from 'next/link'
+import styles from "../styles/components/Navbar.module.css";
+import Link from "next/link";
 
 export default function NavBar() {
   const [activeMenu, setActiveMenu] = useState(false);
@@ -9,7 +9,7 @@ export default function NavBar() {
     setActiveMenu(!activeMenu);
   };
   return (
-    <nav className={styles.navbar} >
+    <nav className={styles.navbar}>
       <Dimmer.Dimmable dimmed={activeMenu}>
         <Dimmer active={activeMenu} page onClickOutside={menuClick}>
           <Button
@@ -100,9 +100,16 @@ export default function NavBar() {
           </div>
         </Dimmer>
         <Menu inverted>
-          <Menu.Item id={styles.logo} name="KNPSS" />
+          <Link href="/">
+            <Menu.Item id={styles.logo} name="KNPSS" />
+          </Link>
 
-          <Menu.Item id={styles.topDivMenu} position="right" icon="bars" onClick={()=>setActiveMenu(true)} />
+          <Menu.Item
+            id={styles.topDivMenu}
+            position="right"
+            icon="bars"
+            onClick={() => setActiveMenu(true)}
+          />
         </Menu>
       </Dimmer.Dimmable>
     </nav>
