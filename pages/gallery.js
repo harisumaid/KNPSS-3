@@ -1,32 +1,48 @@
-import { Table } from "semantic-ui-react";
+import { Divider, Header, Grid, Image } from "semantic-ui-react";
 import { fetchAllGallery } from "../lib/fetchForGallery";
+import Navbar from "../components/navbar";
 import Link from "next/link";
+import Head from "next/head";
+import styles from "../styles/Gallery.module.css";
 
 export default function Gallery({ Gallery }) {
   return (
     <div>
-      <h1>Gallery Section</h1>
-      <Table celled>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Id</Table.HeaderCell>
-            <Table.HeaderCell>Heading</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+      <Head>
+        <title>Gallery</title>
+      </Head>
+      <Navbar />
+      <div className={styles.mainDiv}>
+        <Divider id={styles.galleryDivider} horizontal>
+          <Header as="h1">Gallery Section</Header>
+        </Divider>
+        <Grid divided>
           {Gallery.map((gallery) => {
-              return (
-            <Table.Row key={gallery.type+gallery._id}>
-              <Table.Cell>{gallery._id}</Table.Cell>
-              <Table.Cell>
-                <Link href={`/${gallery.type}/${gallery._id}`}>
-                  <a>{gallery.heading}</a>
+            return (
+              <Grid.Column
+                id={styles.eachGrid}
+                mobile={16}
+                tablet={8}
+                computer={4}
+                key={gallery._id}
+              >
+                <Link href={`/${gallery.type}/${gallery._id}`} passHref>
+                  <Grid centered id={styles.grid} textAlign='left' >
+                  <Grid.Row id={styles.belowImage}>
+                      <Header sub>{gallery.heading}</Header>
+                    </Grid.Row>
+                    <Grid.Row>
+                      <Image src={gallery.image0Path} size="small" />
+                    </Grid.Row>
+                    <Grid.Row id={styles.belowImage}> <b>Date : </b> {gallery.date}</Grid.Row>
+                    
+                  </Grid>
                 </Link>
-              </Table.Cell>
-            </Table.Row>
-          )})}
-        </Table.Body>
-      </Table>
+              </Grid.Column>
+            );
+          })}
+        </Grid>
+      </div>
     </div>
   );
 }
@@ -35,7 +51,7 @@ export async function getStaticProps() {
   const Gallery = JSON.parse(await fetchAllGallery());
   return {
     props: {
-      Gallery
+      Gallery,
     },
     revalidate: 1,
   };
