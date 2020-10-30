@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin-top: 50px;
+    margin: 1vw 0vw;
 }
 
 .heading p {
@@ -43,6 +43,9 @@
     margin: 3px 0;
 }
 
+.paragraph{
+    white-space: pre-wrap;
+}
 
 
 

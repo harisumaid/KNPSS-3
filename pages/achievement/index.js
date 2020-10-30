@@ -30,7 +30,7 @@ export default function Achievement({ achievementProps }) {
                   <Table.Cell>
                     <b>Headline : </b>
                     <Link
-                      href={`news/${encodeURIComponent(achievement._id)}`}
+                      href={`achievement/${encodeURIComponent(achievement._id)}`}
                       passHref
                     >
                       <a>{achievement.heading}</a>
