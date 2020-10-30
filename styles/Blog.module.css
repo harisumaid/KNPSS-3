@@ -1,0 +1,99 @@
+.container {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.heading p {
+    color: rgb(121, 121, 121);
+    
+}
+
+.heading h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heading h1::after, .heading h1::before {
+    content: '';
+    width: 150px;
+    height: 2px;
+    background: grey;
+    margin: 0 10px;
+}
+
+.color {
+    background-color: #ccc;
+}
+
+.pdfs {
+    
+    margin: 0;
+    padding: 0;
+}
+  
+.pdfs li {
+    display: inline-block;
+    list-style-type: decimal;
+    width: 50%;
+    margin: 3px 0;
+}
+
+
+
+
+  
+@media screen and (min-width: 20em) {
+
+.pdfs li {
+    width: 33.33333%;
+}
+
+}
+
+.subcontainer {
+    min-width: 600px;
+    max-width: 700px;
+    padding: 0 30px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.logo span {
+    font-size: large;
+}
+
+
+.images {
+    min-height: 400px;
+    margin: 10px 20px;
+}
+
+
+.content {
+    
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.content p {
+    width: 100%;
+    font-size: calc(0.75em + 1vmin);
+    line-height: 30px;
+    text-align: center;
+    /* white-space: nowrap; */
+}
+
+
+
+
