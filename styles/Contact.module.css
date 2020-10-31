@@ -1,0 +1,137 @@
+.heading {
+    margin-top: 30px;
+}
+
+.heading p {
+    color: rgb(121, 121, 121);
+    
+}
+
+.heading h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heading h1::after, .heading h1::before {
+    content: '';
+    width: 150px;
+    height: 2px;
+    background: grey;
+    margin: 0 10px;
+}
+
+.left {
+    flex: 4;
+    width: 100%;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.right {
+    flex: 1;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    margin-top: 30px;
+}
+
+
+.paragraph {
+    max-width: 350px;
+    word-wrap: break-word;
+    margin: 0;
+}
+
+
+ /* Extra small devices (phones, 600px and down) */
+ @media only screen and (max-width: 600px) {
+    .container {
+        flex-direction: column-reverse;
+        
+    }
+
+    .right {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .left {
+        text-align: center;
+        padding-bottom: 30px;
+    }
+
+    
+ }
+
+ /* Small devices (portrait tablets and large phones, 600px and up) */
+ @media only screen and (min-width: 600px) {
+    .container {
+        flex-direction: column-reverse;
+
+    }
+
+    .right {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .left {
+        text-align: center;
+    }
+ }
+ 
+ /* Medium devices (landscape tablets, 768px and up) */
+ @media only screen and (min-width: 768px) {
+    .container {
+        flex-direction: column-reverse;
+
+    }
+
+    .right {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .left {
+        text-align: center;
+    }
+
+
+ }
+ 
+ /* Large devices (laptops/desktops, 992px and up) */
+ @media only screen and (min-width: 992px) {
+    .container {
+        flex-direction: column-reverse;
+
+    }
+
+    .right {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .left {
+        text-align: center;
+    }
+ }
+ 
+ /* Extra large devices (large laptops and desktops, 1200px and up) */
+ @media only screen and (min-width: 1200px) {
+    .container {
+        flex-direction: row;
+        
+    }
+
+    .right, .left {
+        text-align: left;
+    }
+
+ } 

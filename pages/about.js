@@ -139,24 +139,7 @@ export default function About(params) {
           </ol>
         </Grid.Column>
 
-        <Grid.Column>
-          <Divider id={styles.Divider} clearing horizontal>
-            OUR LOCATION
-          </Divider>
-        </Grid.Column>
-
-        <Grid.Column textAlign="center" id={styles.gridForMission}>
-          <Header >
-            Area of Operation/ Jusrisdiction
-          </Header>
-          <Header sub textAlign="center" >
-          Within Jajpur District/State of Odissa.
-          </Header>
-          
-        </Grid.Column>
-        <Grid.Column>
-          <Embed className={styles.youtube} id="47HN6xOwphA" source="youtube" placeholder='/homepage_image.svg' />
-        </Grid.Column>
+        
       </Grid>
     </div>
   );
