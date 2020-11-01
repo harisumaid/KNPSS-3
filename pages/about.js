@@ -155,7 +155,7 @@ export default function About(params) {
           
         </Grid.Column>
         <Grid.Column>
-          <Embed className={styles.youtube} id="eVTXPUF4Oz4" source="youtube" placeholder='/homepage_image.svg' />
+          <Embed className={styles.youtube} id="47HN6xOwphA" source="youtube" placeholder='/homepage_image.svg' />
         </Grid.Column>
       </Grid>
     </div>

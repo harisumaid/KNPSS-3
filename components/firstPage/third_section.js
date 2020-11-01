@@ -29,9 +29,9 @@ export default function ThirdSection({props}) {
                 <div className={styles.video} >
                     <iframe 
                         className={styles.videoFrame}
-                        src="https://www.youtube.com/embed/eVTXPUF4Oz4" 
+                        src="https://www.youtube.com/embed/47HN6xOwphA" 
                         frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allow="autoplay;"
                         allowFullScreen>
 
                     </iframe>
