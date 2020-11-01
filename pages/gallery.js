@@ -27,15 +27,24 @@ export default function Gallery({ Gallery }) {
                 key={gallery._id}
               >
                 <Link href={`/${gallery.type}/${gallery._id}`} passHref>
-                  <Grid centered id={styles.grid} textAlign='left' >
-                  <Grid.Row id={styles.belowImage}>
+                  <Grid centered id={styles.grid} textAlign="left">
+                    <Grid.Row id={styles.belowImage}>
                       <Header sub>{gallery.heading}</Header>
                     </Grid.Row>
                     <Grid.Row>
-                      <Image src={gallery.image0Path} size="small" />
+                      <Image
+                        src={gallery.image0Path}
+                        size="small"
+                        style={{
+                          "backgroundUrl":
+                            "https://react.semantic-ui.com/images/wireframe/image.png",
+                        }}
+                      />
                     </Grid.Row>
-                    <Grid.Row id={styles.belowImage}> <b>Date : </b> {gallery.date}</Grid.Row>
-                    
+                    <Grid.Row id={styles.belowImage}>
+                      {" "}
+                      <b>Date : </b> {gallery.date}
+                    </Grid.Row>
                   </Grid>
                 </Link>
               </Grid.Column>
