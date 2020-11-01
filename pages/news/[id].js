@@ -1,6 +1,7 @@
 import { fetchIdList, fetchForId } from "../../lib/fetchForNews";
 import { useRouter } from "next/router";
 import Blog from "../../components/blog";
+import Head from "next/head";
 
 export default function Post({ news }) {
   const router = useRouter();
@@ -9,6 +10,9 @@ export default function Post({ news }) {
   }
   return (
     <div>
+      <Head>
+        <title>{news.heading}</title>
+      </Head>
       <Blog post={news} />
     </div>
   );
