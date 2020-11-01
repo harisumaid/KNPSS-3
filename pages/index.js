@@ -2,12 +2,13 @@ import Head from "next/head";
 import LandingSection from "../components/firstPage/landing_section";
 import SecondSection from "../components/firstPage/second_section";
 import ThirdSection from "../components/firstPage/third_section";
+import styles from "../styles/Home.module.css";
 import { datajsoning } from "./api/jsonForHome";
 import { fetchAllGallery } from "../lib/fetchForGallery";
 
-export default function Home({ Gallery,data }) {
+export default function Home({ Gallery, data }) {
   return (
-    <div>
+    <div className={styles.homeMain} >
       <Head>
         <title>KNPSS</title>
       </Head>
