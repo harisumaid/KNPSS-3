@@ -27,7 +27,7 @@ export default function SecondSection({ Gallery }) {
                 <div key={gallery._id}>
                   <Image src={gallery.image0Path} size="massive" />
                   <p className={styles.postRead}>
-                    <span>{`${gallery.heading}`}</span><br/> <span>{`Dt: ${gallery.date}`}</span>
+                    <span><b>{`${gallery.heading}`}</b></span><br/> <span>{`Dt: ${gallery.date}`}</span>
                     <br/>
                     <Link href={`/${gallery.type}/${gallery._id}`}>
                       <Button animated>
