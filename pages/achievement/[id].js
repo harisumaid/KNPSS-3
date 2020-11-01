@@ -2,21 +2,25 @@ import { fetchIdList, fetchForId } from "../../lib/fetchForAchievement";
 import { useRouter } from "next/router";
 import Blog from "../../components/blog";
 import { Dimmer, Header } from "semantic-ui-react";
+import Head from "next/head";
 
 export default function Post({ achievement }) {
   const router = useRouter();
   if (router.isFallback) {
-    return <div>
-      <Dimmer page >
-        <Header>
-          Content Loading Please Wait!!
-        </Header>
-      </Dimmer>
-    </div>;
+    return (
+      <div>
+        <Dimmer page>
+          <Header>Content Loading Please Wait!!</Header>
+        </Dimmer>
+      </div>
+    );
   }
 
   return (
     <div>
+      <Head>
+        <title>{achievement.heading}</title>
+      </Head>
       <Blog post={achievement} />
     </div>
   );

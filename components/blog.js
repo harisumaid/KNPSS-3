@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../styles/Blog.module.css";
-import { Icon, Button, Divider } from "semantic-ui-react";
+import { Icon, Image, Divider } from "semantic-ui-react";
 import { Carousel } from "react-responsive-carousel";
 import Navbar from "../components/navbar";
 const Blog = ({ post }) => {
@@ -13,8 +13,9 @@ const Blog = ({ post }) => {
             <Icon name="blind" size="huge" />
             <span>KNPSS</span>
           </div>
+  <Divider horizontal >{post.heading}</Divider>
           <div className={styles.heading}>
-            <h1>{post.heading}</h1>
+            {/* <h1>{post.heading}</h1> */}
             <p>{post.date}</p>
           </div>
           <Divider />
@@ -27,12 +28,11 @@ const Blog = ({ post }) => {
               showIndicators={false}
               swipeable
               useKeyboardArrows
-              width="600px"
             >
               {post.imagesPath.map((path) => {
                 return (
                   <div key={path}>
-                    <img src={path} />
+                    <Image src={path} />
                     <p className="post-read"></p>
                   </div>
                 );
@@ -50,7 +50,7 @@ const Blog = ({ post }) => {
                   return (
                     <li className={styles.pdf} key={path}>
                       {" "}
-                      <a href={path}>{path}</a>{" "}
+                      <a href={path}>{path.slice(path.search('_')+1)}</a>{" "}
                     </li>
                   );
                 })
