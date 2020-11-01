@@ -3,7 +3,7 @@ import LandingSection from "../components/firstPage/landing_section";
 import SecondSection from "../components/firstPage/second_section";
 import ThirdSection from "../components/firstPage/third_section";
 import styles from "../styles/Home.module.css";
-import { datajsoning } from "./api/jsonForHome";
+import { fetchFirstFive } from "../lib/fetchForNews";
 import { fetchAllGallery } from "../lib/fetchForGallery";
 
 export default function Home({ Gallery, data }) {
@@ -14,13 +14,13 @@ export default function Home({ Gallery, data }) {
       </Head>
       <LandingSection />
       <SecondSection Gallery={Gallery} />
-      <ThirdSection props={data.data} />
+      <ThirdSection props={data} />
     </div>
   );
 }
 
 export async function getStaticProps() {
-  const res = datajsoning();
+  const res = await fetchFirstFive();
   const data = JSON.parse(res);
   const Gallery = JSON.parse(await fetchAllGallery());
   return {
