@@ -1,4 +1,139 @@
-.secondDiv{
+.secondDiv {
     height: 100vh;
     width: 100vw;
-}
+    display: flex;
+    z-index: 999;
+    align-items: center;
+    justify-content: space-around;
+    padding: 3vw;
+  }
+  
+  .bgImageSecondDiv {
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    background-image: url('/homepage_image.png');
+    filter: brightness(50%);
+    background-position: center;
+    background-size: cover;
+    z-index: -1;
+  }
+  
+  .acheivementsHeader {
+    color: white;
+    text-align: center;
+  }
+  
+  .postRead {
+    padding: 10px;
+    color: black;
+    background-color: white;
+  }
+  
+  .acheivementsGallery {
+    /* background:  transparent; */
+    /* border: 2px firebrick solid; */
+    width: 90vw;
+    height: 30vh;
+  }
+  
+  .postRead span {
+    margin-right: 10px;
+  }
+  
+  
+   /* Extra small devices (phones, 600px and down) */
+   @media only screen and (max-width: 600px) {
+    .acheivements { 
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .acheivementsHeader {
+      font-size: 30px;
+  
+    }
+  
+    
+    
+  }
+  
+   /* Small devices (portrait tablets and large phones, 600px and up) */
+   @media only screen and (min-width: 600px) {
+    .acheivements {
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .acheivementsHeader {
+      font-size: 32px;
+    }
+  
+    .acheivementsGallery {
+      margin-top: 20px;
+      width: 50vw;
+      height: fit-content
+    }
+   }
+   
+   /* Medium devices (landscape tablets, 768px and up) */
+   @media only screen and (min-width: 768px) {
+    .acheivements {
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+    .acheivementsHeader {
+      font-size: 35px;
+      
+    }
+  
+    .acheivementsGallery { 
+      /* width: 600px;
+      margin-right: 60px; */
+      width: 50vw;
+      height: fit-content
+    }
+   }
+   
+   /* Large devices (laptops/desktops, 992px and up) */
+   @media only screen and (min-width: 992px) {
+    .acheivements {
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .acheivementsGallery { 
+      width: 800px;
+      margin-right: 60px;
+  
+    }
+    .acheivementsHeader {
+      font-size: 30px;
+      
+  
+    }
+   }
+   
+   /* Extra large devices (large laptops and desktops, 1200px and up) */
+   @media only screen and (min-width: 1200px) {
+    .acheivements {
+      flex-direction: row;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .acheivementsGallery { 
+      margin-left: 50px;
+  
+    }
+    .acheivementsHeader {
+      font-size: 40px;
+    }
+  
+   } 
