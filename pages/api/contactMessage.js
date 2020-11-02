@@ -1,5 +1,6 @@
 import nextConnect from 'next-connect';
 import Message from '../../models/Message';
+import mongooseConnection from "../../middleware/database";
 
 
 const handler = nextConnect();
