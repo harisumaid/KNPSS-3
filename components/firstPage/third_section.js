@@ -1,6 +1,6 @@
 import styles from "../../styles/components/homePage/ThirdSection.module.css";
 import { Segment, Header, List, Divider } from "semantic-ui-react";
-import Link from 'next/link'
+import Link from "next/link";
 
 export default function ThirdSection({ props }) {
   return (
@@ -18,9 +18,11 @@ export default function ThirdSection({ props }) {
                 return (
                   <List.Item key={data._id}>
                     <List.Content>
-                        <Link href={`/news/${data._id}`} >
-                        <a>{data.heading} Dt:- {data.date}</a>
-                        </Link>
+                      <Link href={`/news/${data._id}`}>
+                        <a>
+                          {data.heading} Dt:- {data.date}
+                        </a>
+                      </Link>
                     </List.Content>
                   </List.Item>
                 );
@@ -44,15 +46,19 @@ export default function ThirdSection({ props }) {
             </Header>
             <Divider />
             <List id={styles.tweetList}>
-              {props.map((data) => {
-                return (
-                  <List.Item key={data._id}>
-                    <List.Content>
-                      {data.heading} Dt:- {data.date}
-                    </List.Content>
-                  </List.Item>
-                );
-              })}
+              <a
+                class="twitter-timeline"
+                href="https://twitter.com/dhal_aswini?ref_src=twsrc%5Etfw"
+                data-limit='5'
+                id={styles.tweetTimeline}
+                data-chrome="nofooter noborders scrollbar noheader">
+                Tweets by dhal_aswini
+              </a>{" "}
+              <script
+                async
+                src="https://platform.twitter.com/widgets.js"
+                charset="utf-8"
+              ></script>
             </List>
           </Segment>
         </div>
