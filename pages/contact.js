@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Nav from '../components/navbar';
 import styles from '../styles/Contact.module.css';
 import * as yup from 'yup';
@@ -18,9 +19,36 @@ const validationSchema = yup.object().shape({
 
 
 export default function Contact(params) {
+    const [isLoading, setLoading] = useState(false);
 
-    const handleSubmit = (values) => {
-        
+    const handleSubmit = async (values) => {
+        const {name, email, phone, message} = values;
+        setLoading(true);
+        try {
+            const response = await fetch('/api/contactMessage', {
+                method : 'post',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify({
+                    email, name, phone, message
+                })
+
+            })
+
+            const result = await response.json();
+            if(!result.error) {
+                setLoading(false);
+                console.log(result.message);
+            } else {
+                setLoading(false);
+                console.log(result.message);
+            }
+        } catch(err) {
+            setLoading(false);
+            console.log(err);
+        }
+
     }
 
 
@@ -100,7 +128,7 @@ export default function Contact(params) {
 
                                     <Divider />
 
-                                    <Button type="submit" onClick={formikProps.handleSubmit}>SEND</Button>
+                                    <Button loading={isLoading} type="submit" onClick={formikProps.handleSubmit}>SEND</Button>
                                     
                                 </Form>
 
