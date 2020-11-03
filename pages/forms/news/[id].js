@@ -11,53 +11,37 @@ import {
   Image,
   Icon,
   Modal,
+  Loader,
 } from "semantic-ui-react";
 import { useFormik } from "formik";
 
 export default function Post({ news }) {
   const [imageList, changeImageList] = useState([]);
   const [pdfList, changePdfList] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [processing, setProcessing] = useState(false);
-  const FinalizeModal = () => {
-    return (
-      <Modal
-        // onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        open={open}
-        trigger={
-          <Button
-            icon="close"
-            color="red"
-            style={{ marginLeft: "10px" }}
-          ></Button>
-        }
-      >
-        <Modal.Header>Delete that item</Modal.Header>
-        <Modal.Content>
-          <Modal.Description>
-            <Header>Selected content will be deleted</Header>
-
-            <p>Deleted content can't be retrieved</p>
-          </Modal.Description>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button color="black" onClick={() => setOpen(false)}>
-            Nope
-          </Button>
-          <Button
-            content="Carry on"
-            labelPosition="right"
-            icon="checkmark"
-            onClick={() => setOpen(false)}
-            negative
-          />
-        </Modal.Actions>
-      </Modal>
-    );
-  };
+  const [processingType, setProcessingType] = useState([false, null]);
+  const [inProcessing, setInProcessing] = useState(null);
 
   const router = useRouter();
+  const continueDelete = (content) => {
+    setInProcessing("processing");
+    switch (content) {
+      case "post":
+        console.log("Post deletion Sequence");
+        // delete from type{new,achievement}
+        // delete from gallery
+        break;
+
+      default:
+        //   delete from aws
+        //  delete that path from array
+        console.log("File deletion Sequence");
+        break;
+    }
+  };
+  const updatePost = (values)=>{
+    //   update the content with the id
+    // update the gallery with same id
+  }
   const formik = useFormik({
     initialValues: {
       date: news.date,
@@ -85,6 +69,39 @@ export default function Post({ news }) {
       <Head>
         <title>{news.heading}</title>
       </Head>
+      <Dimmer page active={inProcessing != null}>
+        {inProcessing === "processing" && <Loader active>Loading</Loader>}
+        {inProcessing === "processed" && (
+          <>
+            <Header icon inverted>
+              {" "}
+              <Icon name="check" color="green" /> Deletion Successfull{" "}
+            </Header>
+            <br/>
+            <Button onClick={()=>{setInProcessing(null)}} > Ok</Button>
+          </>
+        )}
+      </Dimmer>
+      <Dimmer page active={processingType[0]}>
+        <Header as="h2" icon inverted>
+          <Icon name="delete" />
+          Do you want to confirm deletion
+          <Header.Subheader>{processingType[1]}</Header.Subheader>
+        </Header>
+        <br />
+        <Button
+          negative
+          onClick={() => {
+            continueDelete(processingType[1]);
+            setProcessingType([false, processingType[1]]);
+          }}
+        >
+          Delete
+        </Button>
+        <Button primary onClick={() => setProcessingType([false, null])}>
+          Cancel
+        </Button>
+      </Dimmer>
       <Segment>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Input
@@ -110,13 +127,21 @@ export default function Post({ news }) {
             <div>
               {formik.values.images.map((image) => {
                 return (
-                  <div>
+                  <div key={image}>
                     <Image
                       src={image}
                       size="small"
                       style={{ display: "inline" }}
                     ></Image>
-                    <FinalizeModal />
+                    <Icon
+                      name="close"
+                      color="red"
+                      style={{ marginLeft: "10px" }}
+                      onClick={() => {
+                        setProcessingType([true, image]);
+                      }}
+                    ></Icon>
+                    {/* <FinalizeModal type="image" /> */}
                   </div>
                 );
               })}
@@ -131,6 +156,17 @@ export default function Post({ news }) {
                   console.log(imageList);
                 }}
               />
+              <Button
+                type="button"
+                icon="close"
+                labelPosition="left"
+                content="Clear Files"
+                color="red"
+                onClick={(e) => {
+                  console.log(e.target.form[3].value);
+                  e.target.form[3].value = "";
+                }}
+              />
             </div>
           </Segment>
           <Header>Pdfs</Header>
@@ -138,9 +174,17 @@ export default function Post({ news }) {
             <div>
               {formik.values.pdfs.map((pdf) => {
                 return (
-                  <div>
+                  <div key={pdf}>
                     <a href={pdf}>{pdf.slice(pdf.search("_") + 1)}</a>
-                    <FinalizeModal />
+                    <Icon
+                      name="close"
+                      color="red"
+                      style={{ marginLeft: "10px" }}
+                      onClick={() => {
+                        setProcessingType([true, pdf]);
+                      }}
+                    ></Icon>
+                    {/* <FinalizeModal type="pdf" /> */}
                   </div>
                 );
               })}
@@ -150,9 +194,22 @@ export default function Post({ news }) {
                 type="file"
                 accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf"
                 multiple
+                id="pdfMultiple"
                 onChange={(e) => {
                   changePdfList(e.currentTarget.files);
                   console.log(pdfList);
+                }}
+                style={{ display: "inline" }}
+              />
+              <Button
+                type="button"
+                icon="close"
+                labelPosition="left"
+                content="Clear Files"
+                color="red"
+                onClick={(e) => {
+                  console.log(e.target.form[5].value);
+                  e.target.form[5].value = "";
                 }}
               />
             </div>
@@ -160,7 +217,14 @@ export default function Post({ news }) {
           <Button type="submit" positive>
             Update
           </Button>
-          <Button negative type="button" floated="right">
+          <Button
+            negative
+            type="button"
+            floated="right"
+            onClick={() => {
+              setProcessingType([!processingType[0], "post"]);
+            }}
+          >
             Delete Blog
           </Button>
         </Form>
