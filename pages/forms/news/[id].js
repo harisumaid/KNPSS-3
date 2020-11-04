@@ -10,7 +10,6 @@ import {
   Button,
   Image,
   Icon,
-  Modal,
   Loader,
 } from "semantic-ui-react";
 import { useFormik } from "formik";
@@ -22,18 +21,35 @@ export default function Post({ news }) {
   const [inProcessing, setInProcessing] = useState(null);
 
   const router = useRouter();
-  const continueDelete = (content) => {
+  const continueDelete = async(content) => {
     setInProcessing("processing");
     switch (content) {
       case "post":
         console.log("Post deletion Sequence");
+        const deleteResponse = await fetch('/api/deleteBlog',{
+          method:'POST',
+          body:JSON.stringify({_id:news._id,type:'news'}),
+        });
         // delete from type{new,achievement}
         // delete from gallery
+        const delRes = await deleteResponse.json();
+        if (delRes.message==='deleted') {
+          setInProcessing("processed");
+          // delete this route 
+          router.back();
+        }
         break;
 
       default:
-        //   delete from aws
-        //  delete that path from array
+        const response = await fetch('/api/deleteContent',{
+          method:'POST',
+          body: JSON.stringify({key:processingType[1]})
+        });
+        const res = await response.json();
+        console.log(res.result);
+        if (res.result==='success') {
+          setInProcessing("processed")
+        }
         console.log("File deletion Sequence");
         break;
     }

@@ -47,7 +47,7 @@ export default function ThirdSection({ props }) {
             <Divider />
             <List id={styles.tweetList}>
               <a
-                class="twitter-timeline"
+                className="twitter-timeline"
                 href="https://twitter.com/dhal_aswini?ref_src=twsrc%5Etfw"
                 data-limit='5'
                 id={styles.tweetTimeline}
@@ -57,7 +57,7 @@ export default function ThirdSection({ props }) {
               <script
                 async
                 src="https://platform.twitter.com/widgets.js"
-                charset="utf-8"
+                charSet="utf-8"
               ></script>
             </List>
           </Segment>
