@@ -111,11 +111,21 @@ export default function Post({ news }) {
         }
       });
 
-      imageList[0] != null ? formData.append("imageFile", ...imageList) : null;
-      pdfList[0] != null ? formData.append("pdfFile", ...pdfList) : null;
+      imageList[0] == null
+        ? null
+        : Array.from(imageList).forEach((element) => {
+            formData.append("imageFile", element);
+          });
+      pdfList[0] == null
+        ? null
+        : Array.from(pdfList).forEach((element) => {
+            formData.append("pdfFile", element);
+          });
 
-      await updatePost(formData);
-
+      const res = await updatePost(formData);
+      if (res.result === "success") {
+        router.back();
+      }
       setInProcessing("processed");
     },
   });
