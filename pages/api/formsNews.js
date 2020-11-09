@@ -32,13 +32,6 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 const AWS = require("aws-sdk");
 
-// AWS.config.update({
-//   'accessKeyId': process.env.AWS_ACCESS_KEY_ID_MYAPP,
-//   'secretAccessKey': process.env.AWS_SECRET_ACCESS_KEY_MYAPP,
-//   'region': process.env.AWS_REGION_MYAPP,
-//     'bucketname': process.env.AWS_BUCKET_NAME
-// })
-
 const s3 = new AWS.S3({
   params:{
     Bucket: process.env.MY_BUCKET,

@@ -32,7 +32,7 @@ export async function deleteContent(key) {
     console.log("Deleting function executed still Some errors encountered");
     return result.Errors;
   } else {
-    console.log("No errors");
+    console.log("No errors in deleting files");
     return 'success';
   }
 }
